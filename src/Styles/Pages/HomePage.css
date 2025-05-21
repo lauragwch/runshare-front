@@ -1,0 +1,231 @@
+.floatingLogo {
+  position: absolute;
+  top: -15px;
+  left: 80px;
+  transform: translateX(-50%);
+  z-index: 1500;  /* Valeur plus élevée que la navbar (1000) */
+  width: 240px;  
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.floatingLogo img {
+  width: 100%;
+  height: auto;
+}
+
+.homePage {
+  width: 100%;
+  background-color: #48466d;
+  color: white;
+  min-height: 100vh;
+}
+
+.hero {
+  position: relative;
+  height: 600px; /* Plus grand pour montrer plus l'image */
+  background-image: url('../../assets/hero-image.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); 
+}
+
+/* Supprimer le logoContainer car il sera dans la navbar */
+.logoContainer {
+  display: none;
+}
+
+.heroContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+}
+
+.heroContent p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.heroCta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Mise à jour des styles pour la section features */
+.features {
+  padding: 5rem 0;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.features .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.subtitle {
+  color: #f5f5f5; 
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  font-size: 1.1rem;
+}
+
+/* Section de titre */
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+  width: 100%;
+  display: block;
+}
+
+.sectionTitle h2 {
+  color: white;
+  margin-bottom: 1rem;
+  font-size: 2.2rem;
+}
+
+/* Ajout d'espace entre les sections */
+.features:nth-child(3) {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  margin-top: 2rem;
+}
+
+.featuresGrid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.featureCard {
+  background-color: rgba(255, 255, 255, 0.1); 
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  flex: 0 0 calc(33.333% - 2rem); 
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.iconWrapper {
+  width: 70px;
+  height: 70px;
+  background-color: rgba(248, 146, 62, 0.2); 
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.iconWrapper i {
+  font-size: 2rem;
+  color: var(--secondary);
+}
+
+.featureCard h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: white; 
+}
+
+.featureCard p {
+  color: rgba(255, 255, 255, 0.8); 
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 500px;
+    margin-top: 56px; 
+  }
+  
+  .heroContent h1 {
+    font-size: 2.2rem;
+  }
+  
+  .heroCta {
+    flex-direction: column;
+  }
+  
+  .featuresGrid {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .featureCard {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .navbar {
+    position: fixed;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 450px;
+  }
+  
+  .heroContent h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Ajustement responsive pour le logo */
+@media (max-width: 768px) {
+  .floatingLogo {
+    width: 180px; /* Version légèrement plus petite pour tablette */
+    top: 15px;
+    left: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floatingLogo {
+    width: 140px; /* Version encore plus petite pour mobile */
+    top: 10px;
+    left: 10px;
+  }
+}
