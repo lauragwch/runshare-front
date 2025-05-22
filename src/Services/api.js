@@ -23,36 +23,24 @@ api.interceptors.request.use(
     return config;
   },
   error => {
-    // En cas d'erreur lors de la configuration de la requête
     return Promise.reject(error);
   }
 );
 
 // Intercepteur de réponses - exécuté après chaque réponse
 api.interceptors.response.use(
-  // Premier paramètre : fonction exécutée en cas de succès
   response => {
-    // Retourner directement la réponse
     return response;
   },
-  // Deuxième paramètre : fonction exécutée en cas d'erreur
   error => {
     // Si l'erreur est de type 401 (non autorisé), le token est probablement expiré
     if (error.response && error.response.status === 401) {
-      // Suppression du token invalide
       localStorage.removeItem('token');
-      
-      // Redirection vers la page de connexion
-      // Note: cette redirection doit être gérée par React Router dans une application React
-      // window.location.href = '/auth';
     }
     
-    // Rejeter la promesse avec l'erreur pour que le composant puisse la gérer
     return Promise.reject(error);
   }
 );
-
-// Exportation de fonctions spécifiques pour chaque type de requête
 
 // Authentification
 export const authService = {
@@ -79,7 +67,8 @@ export const runService = {
   getById: (runId) => api.get(`/runs/${runId}`),
   create: (runData) => api.post('/runs', runData),
   join: (runId) => api.post(`/runs/${runId}/join`),
-  leave: (runId) => api.delete(`/runs/${runId}/leave`)
+  leave: (runId) => api.delete(`/runs/${runId}/leave`),
+  rateRun: (runId, ratingData) => api.post(`/runs/${runId}/rate`, ratingData)
 };
 
 export default api;
