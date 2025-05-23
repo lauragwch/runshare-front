@@ -1,21 +1,49 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './Contextes/AuthContext';
 import './App.css';
 
 // Composants layout
 import Layout from './Components/Layout/Layout';
+// import ProtectedRoute from './Components/Auth/ProtectedRoute';
 
-// Pages (à implémenter progressivement)
+// Pages
 import HomePage from './Pages/HomePage';
+import AuthPage from './Pages/AuthPage';
+// import RunsListPage from './Pages/RunsListPage';
+// import RunDetailPage from './Pages/RunDetailPage';
+// import CreateRunPage from './Pages/CreateRunPage';
+// import UserProfilePage from './Pages/UserProfilePage';
+// import NotFoundPage from './Pages/NotFoundPage';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          {/* Autres routes à ajouter progressivement */}
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="auth" element={<AuthPage />} />
+            {/* <Route path="runs" element={<RunsListPage />} /> */}
+            {/* <Route path="runs/:id" element={<RunDetailPage />} /> */}
+            
+            {/* Routes protégées */}
+            {/* <Route path="runs/create" element={
+              <ProtectedRoute>
+                <CreateRunPage />
+              </ProtectedRoute>
+            } /> */}
+            {/* <Route path="profile" element={
+              <ProtectedRoute>
+                <UserProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="users/:id" element={<UserProfilePage />} /> */}
+            
+            {/* Route 404 */}
+            {/* <Route path="*" element={<NotFoundPage />} /> */}
+          </Route>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

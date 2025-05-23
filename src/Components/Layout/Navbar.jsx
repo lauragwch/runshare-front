@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Contextes/AuthContext';
 import '../../Styles/Layout/NavBar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // Pour l'instant, pas de gestion d'authentification
-  const currentUser = null;
+  const { currentUser, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/');
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="container navbarContainer">
-        {/* Le logo est retiré d'ici */}
         <div className="spacer"></div>
 
         <div className="mobileMenuToggle" onClick={toggleMenu}>
@@ -29,7 +34,12 @@ const Navbar = () => {
           {currentUser ? (
             <>
               <li><Link to="/runs/create" onClick={() => setMenuOpen(false)}>Créer</Link></li>
-              <li><Link to="/auth" className="authBtn" onClick={() => setMenuOpen(false)}>Mon Profil</Link></li>
+              <li><Link to="/profile" onClick={() => setMenuOpen(false)}>Mon Profil</Link></li>
+              <li>
+                <button className="logoutBtn" onClick={handleLogout}>
+                  Déconnexion
+                </button>
+              </li>
             </>
           ) : (
             <li>

@@ -1,0 +1,198 @@
+.authPage {
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - 180px); /* Ajustez selon la hauteur de votre navbar et footer */
+  display: flex;
+  align-items: center;
+}
+
+.authContainer {
+  background-color: white;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: var(--spacing-xl);
+  width: 100%;
+}
+
+.authHeader {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+  padding: 0 var(--spacing-md);
+}
+
+.authHeader h1 {
+  color: var(--primary);
+  font-size: 2.2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.authSubtitle {
+  color: var(--medium-gray);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.authBenefits {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: var(--spacing-xl);
+}
+
+.benefitItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 150px;
+}
+
+.benefitIcon {
+  background-color: rgba(72, 70, 109, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.5rem;
+}
+
+.benefitText {
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+}
+
+.formToggle {
+  display: flex;
+  margin-bottom: var(--spacing-xl);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--light-gray);
+}
+
+.formToggle button {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.formToggle button.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.authFormContainer {
+  min-height: 350px; /* Pour éviter que la page ne "saute" entre login et register */
+}
+
+@media (max-width: 768px) {
+  .authPage {
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+  
+  .authContainer {
+    padding: var(--spacing-lg) var(--spacing-md);
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .formToggle button {
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+}
+
+/* ... styles existants ... */
+
+/* Nouveaux styles pour l'en-tête */
+.authHeader {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+  padding: 0 var(--spacing-md);
+}
+
+.authHeader h1 {
+  color: var(--primary);
+  font-size: 2.2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.authSubtitle {
+  color: var(--medium-gray);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.authBenefits {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: var(--spacing-xl);
+}
+
+.benefitItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 150px;
+}
+
+.benefitIcon {
+  background-color: rgba(72, 70, 109, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.5rem;
+}
+
+.benefitText {
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+}
+
+/* Adaptation mobile */
+@media (max-width: 768px) {
+  .authHeader h1 {
+    font-size: 1.8rem;
+  }
+  
+  .authSubtitle {
+    font-size: 1rem;
+  }
+  
+  .authBenefits {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  .benefitItem {
+    flex-direction: row;
+    max-width: 100%;
+    gap: var(--spacing-md);
+  }
+  
+  .benefitIcon {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 0;
+    font-size: 1.2rem;
+  }
+}
