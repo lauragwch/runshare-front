@@ -99,3 +99,45 @@
     padding: 12px;
   }
 }
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputContainer input {
+  width: 100%;
+  padding-right: 40px; /* Espace pour l'icône */
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--medium-gray);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: color 0.3s ease;
+}
+
+.passwordToggleBtn:hover {
+  color: var(--primary);
+}
+
+.passwordToggleBtn:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .passwordToggleBtn {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}
