@@ -1,0 +1,118 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { authService } from '../Services/api';
+import '../Styles/Pages/ResetPasswordPage.css';
+
+const ResetPasswordPage = () => {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [token, setToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Récupérer le token de l'URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tokenParam = params.get('token');
+    
+    if (!tokenParam) {
+      setError('Token de réinitialisation manquant');
+    } else {
+      setToken(tokenParam);
+    }
+  }, [location]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validation
+    if (password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError('Le mot de passe doit contenir au moins 6 caractères');
+      return;
+    }
+    
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      await authService.resetPassword(token, password);
+      
+      setSuccess(true);
+      
+      // Rediriger vers la page de connexion après 3 secondes
+      setTimeout(() => {
+        navigate('/auth');
+      }, 3000);
+      
+    } catch (err) {
+      setError(err.response?.data?.message || 'Une erreur est survenue lors de la réinitialisation du mot de passe');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="resetPasswordPage">
+      <div className="resetPasswordContainer">
+        <h1>Réinitialisation du mot de passe</h1>
+        
+        {error && <div className="errorMessage">{error}</div>}
+        
+        {success ? (
+          <div className="successMessage">
+            <i className="fa-solid fa-check-circle successIcon"></i>
+            <h2>Mot de passe réinitialisé !</h2>
+            <p>Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé vers la page de connexion.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="formGroup">
+              <label htmlFor="password">Nouveau mot de passe</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Votre nouveau mot de passe"
+                disabled={isLoading}
+                required
+              />
+            </div>
+            
+            <div className="formGroup">
+              <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirmez votre mot de passe"
+                disabled={isLoading}
+                required
+              />
+            </div>
+            
+            <button 
+              type="submit" 
+              className="resetPasswordBtn"
+              disabled={isLoading || !token}
+            >
+              {isLoading ? 'Traitement...' : 'Réinitialiser le mot de passe'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ResetPasswordPage;

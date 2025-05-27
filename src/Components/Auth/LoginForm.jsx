@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contextes/AuthContext';
+import ForgotPasswordModal from './ForgotPasswordModal';
 import '../../Styles/Auth/LoginForm.css';
 
 const LoginForm = () => {
@@ -9,6 +10,7 @@ const LoginForm = () => {
     password: ''
   });
   const [errors, setErrors] = useState({});
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   
   const { loginUser, error } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -62,6 +64,10 @@ const LoginForm = () => {
       console.error('Erreur de connexion:', err);
     }
   };
+
+  const toggleForgotPassword = () => {
+    setShowForgotPassword(!showForgotPassword);
+  };
   
   return (
     <div className="loginForm">
@@ -94,10 +100,26 @@ const LoginForm = () => {
           {errors.password && <div className="fieldError">{errors.password}</div>}
         </div>
         
+        <div className="forgotPasswordLink">
+          <button 
+            type="button" 
+            className="linkButton"
+            onClick={toggleForgotPassword}
+          >
+            Mot de passe oublié ?
+          </button>
+        </div>
+        
         <button type="submit" className="submitBtn">
           Se connecter
         </button>
       </form>
+
+      {showForgotPassword && (
+        <ForgotPasswordModal 
+          onClose={toggleForgotPassword} 
+        />
+      )}
     </div>
   );
 };

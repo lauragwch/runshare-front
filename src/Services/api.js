@@ -46,7 +46,10 @@ api.interceptors.response.use(
 export const authService = {
   register: (userData) => api.post('/auth/register', userData),
   login: (credentials) => api.post('/auth/login', credentials),
-  getProfile: () => api.get('/auth/profile')
+  getProfile: () => api.get('/auth/profile'),
+  // Ajoutez ces deux méthodes pour la fonctionnalité de mot de passe oublié
+  requestPasswordReset: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (token, newPassword) => api.post('/auth/reset-password', { token, newPassword })
 };
 
 // Utilisateurs
