@@ -21,6 +21,12 @@
   min-height: 100vh;
 }
 
+.homePage .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .hero {
   position: relative;
   height: 600px; /* Plus grand pour montrer plus l'image */
@@ -119,13 +125,11 @@
 }
 
 .featuresGrid {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -136,9 +140,8 @@
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
-  flex: 0 0 calc(33.333% - 2rem); 
-  min-width: 280px;
-  max-width: 320px;
+  height: 100%; 
+  max-width: 100%;
 }
 
 .featureCard:hover {
@@ -188,9 +191,7 @@
   }
   
   .featuresGrid {
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
+    grid-template-columns: 1fr;
   }
 
   .featureCard {

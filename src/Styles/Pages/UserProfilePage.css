@@ -1,0 +1,367 @@
+.userProfilePage {
+  padding: 2rem 0;
+  padding-top: calc(2rem + var(--navbar-height, 70px)); /* Pour éviter le chevauchement avec la navbar */
+}
+
+.userProfilePage .container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* En-tête du profil */
+.userProfilePage .profileHeader {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.userProfilePage .profilePictureContainer {
+  position: relative;
+}
+
+.userProfilePage .profilePicture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--primary);
+}
+
+.changePictureBtn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--primary);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.changePictureBtn:hover {
+  background-color: var(--secondary);
+  transform: scale(1.1);
+}
+
+.profileInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.username {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--primary);
+}
+
+.usernameInput {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.userAttributes {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.attribute {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--dark-gray);
+}
+
+.attribute i {
+  color: var(--secondary);
+}
+
+.attribute input,
+.attribute select {
+  padding: 0.5rem;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+.editProfileBtn {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.editProfileBtn:hover {
+  background-color: var(--primary);
+}
+
+.editActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancelBtn,
+.saveBtn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+  border: none;
+}
+
+.saveBtn {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+}
+
+.saveBtn:hover {
+  background-color: var(--primary);
+}
+
+/* Sections de profil */
+.profileSection {
+  margin-bottom: 3rem;
+}
+
+.profileSection h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.profileSection h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--secondary);
+}
+
+.bio {
+  line-height: 1.6;
+  color: var(--dark-gray);
+}
+
+textarea[name="bio"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Liste des courses */
+.runsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.runCard {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.runCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.runDate {
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.runCard h3 {
+  margin: 0 0 0.75rem 0;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.runLocation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.runOrganizer {
+  font-size: 0.85rem;
+  color: var(--medium-gray);
+  margin-top: 0.5rem;
+}
+
+/* Évaluations */
+.averageRating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ratingValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stars {
+  color: #ffb400;
+}
+
+.ratingCount {
+  color: var(--medium-gray);
+}
+
+.ratingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ratingItem {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ratingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.raterInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.raterPicture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.raterName {
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.raterName:hover {
+  color: var(--secondary);
+}
+
+.ratingStars {
+  color: #ffb400;
+}
+
+.ratingComment {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.ratingDate {
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--medium-gray);
+}
+
+/* État de chargement et erreurs */
+.loadingIndicator, .errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem;
+  text-align: center;
+}
+
+.loadingIndicator i, .errorMessage i {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.errorMessage i {
+  color: #e74c3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profileHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .profilePictureContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .userAttributes {
+    justify-content: center;
+  }
+  
+  .editProfileBtn {
+    align-self: center;
+  }
+  
+  .runsList {
+    grid-template-columns: 1fr;
+  }
+}

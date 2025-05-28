@@ -7,7 +7,9 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [token, setToken] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tokenValid, setTokenValid] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -16,16 +18,33 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Récupérer le token de l'URL
+  // Récupérer et vérifier le token de l'URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tokenParam = params.get('token');
 
     if (!tokenParam) {
       setError('Token de réinitialisation manquant');
-    } else {
-      setToken(tokenParam);
+      setIsLoading(false);
+      return;
     }
+
+    setToken(tokenParam);
+
+    // Vérifier la validité du token
+    const verifyToken = async () => {
+      try {
+        await authService.verifyResetToken(tokenParam);
+        setTokenValid(true);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Token invalide ou expiré');
+        setTokenValid(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    verifyToken();
   }, [location]);
 
   const handleSubmit = async (e) => {
@@ -43,7 +62,7 @@ const ResetPasswordPage = () => {
     }
 
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       setError(null);
 
       await authService.resetPassword(token, password);
@@ -58,7 +77,7 @@ const ResetPasswordPage = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'Une erreur est survenue lors de la réinitialisation du mot de passe');
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -77,25 +96,41 @@ const ResetPasswordPage = () => {
 
         {error && <div className="errorMessage">{error}</div>}
 
-        {success ? (
+        {isLoading ? (
+          <div className="loadingMessage">
+            <i className="fa-solid fa-spinner fa-spin"></i>
+            <p>Vérification du token de réinitialisation...</p>
+          </div>
+        ) : success ? (
           <div className="successMessage">
             <i className="fa-solid fa-check-circle successIcon"></i>
             <h2>Mot de passe réinitialisé !</h2>
             <p>Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé vers la page de connexion.</p>
+          </div>
+        ) : !tokenValid ? (
+          <div className="invalidTokenMessage">
+            <i className="fa-solid fa-exclamation-circle errorIcon"></i>
+            <h2>Lien invalide ou expiré</h2>
+            <p>Ce lien de réinitialisation est invalide ou a expiré. Veuillez demander un nouveau lien.</p>
+            <button 
+              className="requestNewLinkBtn"
+              onClick={() => navigate('/auth')}
+            >
+              Retour à la connexion
+            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="formGroup">
               <label htmlFor="password">Nouveau mot de passe</label>
               <div className="passwordInputContainer">
-
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Votre nouveau mot de passe"
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                   required
                 />
                 <button
@@ -111,15 +146,13 @@ const ResetPasswordPage = () => {
             <div className="formGroup">
               <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
               <div className="passwordInputContainer">
-
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-
                   id="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirmez votre mot de passe"
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                   required
                 />
                 <button
@@ -135,9 +168,9 @@ const ResetPasswordPage = () => {
             <button
               type="submit"
               className="resetPasswordBtn"
-              disabled={isLoading || !token}
+              disabled={isSubmitting}
             >
-              {isLoading ? 'Traitement...' : 'Réinitialiser le mot de passe'}
+              {isSubmitting ? 'Traitement...' : 'Réinitialiser le mot de passe'}
             </button>
           </form>
         )}

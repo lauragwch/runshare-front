@@ -13,7 +13,7 @@ import ResetPasswordPage from './Pages/ResetPasswordPage';
 import RunsListPage from './Pages/RunsListPage';
 import RunDetailPage from './Pages/RunDetailPage';
 import CreateRunPage from './Pages/CreateRunPage';
-// import UserProfilePage from './Pages/UserProfilePage';
+import UserProfilePage from './Pages/UserProfilePage';
 // import NotFoundPage from './Pages/NotFoundPage';
 
 function App() {
@@ -34,12 +34,12 @@ function App() {
                 <CreateRunPage />
               </ProtectedRoute>
             } />
-            {/* <Route path="profile" element={
+            <Route path="profile" element={
               <ProtectedRoute>
                 <UserProfilePage />
               </ProtectedRoute>
             } />
-            <Route path="users/:id" element={<UserProfilePage />} /> */}
+            <Route path="users/:id" element={<UserProfilePage />} />
             
             {/* Route 404 */}
             {/* <Route path="*" element={<NotFoundPage />} /> */}
