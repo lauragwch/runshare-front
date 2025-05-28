@@ -1,7 +1,7 @@
 .footer {
   background-color: var(--primary);
   color: var(--white);
-  padding: 2rem 0 1rem;
+  padding: 1.2rem 0 0.6rem; /* Padding encore plus réduit */
   margin-top: auto;
 }
 
@@ -13,36 +13,43 @@
 }
 
 .footer .content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: flex; /* Changé de grid à flex pour contrôler précisément la disposition */
+  justify-content: space-between; /* Répartir les sections sur toute la largeur */
+  gap: 1rem; /* Espace entre les sections */
+  margin-bottom: 1rem; /* Marge inférieure réduite */
+}
+
+.footer .section {
+  flex: 1; /* Chaque section prend une part égale de l'espace */
 }
 
 .footer .section h3 {
   color: var(--white);
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.5rem; /* Espace après titre encore réduit */
+  font-size: 1rem; /* Taille de police réduite */
 }
 
 .footer .section p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem; /* Espace entre paragraphes réduit */
   opacity: 0.8;
+  font-size: 0.85rem; /* Texte plus petit */
 }
 
 .footer .section ul {
   list-style: none;
   padding: 0;
+  margin: 0; /* Suppression de la marge par défaut */
 }
 
 .footer .section ul li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Espace entre liens réduit */
 }
 
 .footer .section ul li a {
   color: var(--white);
   opacity: 0.8;
   transition: opacity 0.3s;
+  font-size: 0.85rem; /* Texte plus petit */
 }
 
 .footer .section ul li a:hover {
@@ -52,12 +59,12 @@
 
 .footer .socialLinks {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem; /* Espace entre icônes réduit */
 }
 
 .footer .socialLinks a {
   color: var(--white);
-  font-size: 1.2rem;
+  font-size: 1rem; /* Icônes plus petites */
   opacity: 0.8;
   transition: all 0.3s;
 }
@@ -65,24 +72,51 @@
 .footer .socialLinks a:hover {
   opacity: 1;
   color: var(--secondary);
-  transform: translateY(-3px);
+  transform: translateY(-2px); /* Animation plus subtile */
 }
 
 .footer .copyright {
   text-align: center;
-  padding-top: 1rem;
+  padding-top: 0.5rem; /* Padding réduit */
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Texte plus petit */
   opacity: 0.7;
 }
 
+/* Adaptation pour les écrans de petite taille */
 @media (max-width: 768px) {
+  .footer {
+    padding: 0.8rem 0 0.4rem; /* Encore plus compact sur mobile */
+  }
+  
   .footer .content {
-    grid-template-columns: 1fr;
+    flex-direction: column; /* Sur mobile, retour à une disposition en colonne */
     text-align: center;
+    gap: 0.75rem; /* Espace réduit entre sections */
+  }
+  
+  .footer .section h3 {
+    margin-bottom: 0.4rem;
   }
   
   .footer .socialLinks {
     justify-content: center;
+  }
+}
+
+/* Pour écrans moyens (tablettes) où les 3 sections pourraient être trop serrées */
+@media (min-width: 769px) and (max-width: 992px) {
+  .footer .content {
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+  }
+  
+  .footer .section {
+    flex-basis: 48%; /* Sur tablette, 2 sections par ligne */
+  }
+  
+  /* La section contact prend toute la largeur en-dessous */
+  .footer .section:last-child {
+    flex-basis: 100%;
+    margin-top: 0.5rem;
   }
 }

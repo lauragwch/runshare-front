@@ -29,7 +29,11 @@ const Navbar = () => {
 
         <ul className={`navLinks ${menuOpen ? 'active' : ''}`}>
           <li><Link to="/" onClick={() => setMenuOpen(false)}>Accueil</Link></li>
-          <li><Link to="/runs" onClick={() => setMenuOpen(false)}>Courses</Link></li>
+          <li>
+            <Link to="/runs" onClick={() => setMenuOpen(false)}>
+              <i className="fa-solid fa-running"></i> Courses
+            </Link>
+          </li>
           
           {currentUser ? (
             <>

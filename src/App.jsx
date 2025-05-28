@@ -4,15 +4,15 @@ import './App.css';
 
 // Composants layout
 import Layout from './Components/Layout/Layout';
-// import ProtectedRoute from './Components/Auth/ProtectedRoute';
+import ProtectedRoute from './Components/Auth/ProtectedRoute';
 
 // Pages
 import HomePage from './Pages/HomePage';
 import AuthPage from './Pages/AuthPage';
 import ResetPasswordPage from './Pages/ResetPasswordPage';
-// import RunsListPage from './Pages/RunsListPage';
-// import RunDetailPage from './Pages/RunDetailPage';
-// import CreateRunPage from './Pages/CreateRunPage';
+import RunsListPage from './Pages/RunsListPage';
+import RunDetailPage from './Pages/RunDetailPage';
+import CreateRunPage from './Pages/CreateRunPage';
 // import UserProfilePage from './Pages/UserProfilePage';
 // import NotFoundPage from './Pages/NotFoundPage';
 
@@ -25,15 +25,15 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="auth" element={<AuthPage />} />
             <Route path="reset-password" element={<ResetPasswordPage />} />
-            {/* <Route path="runs" element={<RunsListPage />} /> */}
-            {/* <Route path="runs/:id" element={<RunDetailPage />} /> */}
+            <Route path="runs" element={<RunsListPage />} />
+            <Route path="runs/:id" element={<RunDetailPage />} />
             
             {/* Routes protégées */}
-            {/* <Route path="runs/create" element={
+            <Route path="runs/create" element={
               <ProtectedRoute>
                 <CreateRunPage />
               </ProtectedRoute>
-            } /> */}
+            } />
             {/* <Route path="profile" element={
               <ProtectedRoute>
                 <UserProfilePage />
