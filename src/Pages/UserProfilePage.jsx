@@ -92,7 +92,7 @@ const UserProfilePage = () => {
   if (loading) {
     return (
       <div className="userProfilePage">
-        <div className="container">
+        <div className="userProfileContainer">
           <div className="loadingIndicator">
             <i className="fa-solid fa-spinner fa-spin"></i>
             <span>Chargement du profil...</span>
@@ -105,7 +105,7 @@ const UserProfilePage = () => {
   if (error) {
     return (
       <div className="userProfilePage">
-        <div className="container">
+        <div className="userProfileContainer">
           <div className="errorMessage">
             <i className="fa-solid fa-triangle-exclamation"></i>
             <span>{error}</span>
@@ -117,7 +117,7 @@ const UserProfilePage = () => {
 
   return (
     <div className="userProfilePage">
-      <div className="container">
+      <div className="userProfileContainer">
         {/* En-tête du profil */}
         <div className="profileHeader">
           <div className="profilePictureContainer">

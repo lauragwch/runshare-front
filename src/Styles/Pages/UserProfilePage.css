@@ -3,7 +3,7 @@
   padding-top: calc(2rem + var(--navbar-height, 70px)); /* Pour éviter le chevauchement avec la navbar */
 }
 
-.userProfilePage .container {
+.userProfileContainer {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
