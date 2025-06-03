@@ -1,0 +1,187 @@
+.runCard {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.runCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+}
+
+.runCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.runMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.runDate {
+  font-size: 0.9rem;
+  color: var(--medium-gray);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.runDate i {
+  color: var(--primary);
+}
+
+.privateLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.runLevel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.runLevel[data-level="débutant"] {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.runLevel[data-level="intermédiaire"] {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.runLevel[data-level="avancé"] {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.runTitle {
+  font-size: 1.25rem;
+  color: var(--dark-gray);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.runLocation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--medium-gray);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.runLocation i {
+  color: var(--secondary);
+}
+
+.runDescription {
+  color: var(--medium-gray);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.runInfo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+}
+
+.runDistance,
+.runParticipants {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.runDistance i {
+  color: var(--primary);
+}
+
+.runParticipants i {
+  color: var(--secondary);
+}
+
+.runFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.runOrganizer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.organizerPicture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f3f4f6;
+}
+
+.organizerName {
+  font-size: 0.9rem;
+  color: var(--medium-gray);
+  font-weight: 500;
+}
+
+.runCardAction {
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.runCard:hover .runCardAction {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .runCard {
+    padding: 1.25rem;
+  }
+  
+  .runCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .runInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

@@ -1,49 +1,90 @@
 .runsListPage {
   padding: 2rem 0;
-    padding-top: calc(2rem + var(--navbar-height, 70px)); 
+  padding-top: calc(6rem + var(--navbar-height, 70px));
+  min-height: calc(100vh - 150px);
+  background-color: #f8f9fa;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
+.runsListPage .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.pageHeader,
+.createRunSection,
+.filtersSection,
+.resultsSection {
+  width: 100% !important;
+  display: block !important;
+}
+
+/* En-tête de page */
 .pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
-.headerLeft h1 {
+.pageHeader h1 {
   color: var(--primary);
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
   color: var(--medium-gray);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Section bouton créer - positionnée au-dessus des filtres */
+.createRunSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 .createRunBtn {
-  background-color: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   color: white;
   border: none;
   border-radius: var(--border-radius);
-  padding: 0.75rem 1.25rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(72, 70, 109, 0.3);
 }
 
 .createRunBtn:hover {
-  background-color: #3b3959;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(72, 70, 109, 0.4);
 }
 
+.createRunBtn.secondary {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+}
+
+/* Section des filtres */
 .filtersSection {
-  background-color: #f9f9f9;
+  background: white;
   border-radius: var(--border-radius);
-  padding: 1.5rem;
+  padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: var(--box-shadow);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .searchFilter {
@@ -53,10 +94,17 @@
 
 .searchInput {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  padding: 1rem 1rem 1rem 3rem;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(72, 70, 109, 0.1);
 }
 
 .searchIcon {
@@ -68,71 +116,116 @@
 }
 
 .filters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  align-items: flex-end;
+  align-items: end;
 }
 
 .filterItem {
-  flex: 1;
-  min-width: 150px;
+  display: flex;
+  flex-direction: column;
 }
 
 .filterItem label {
-  display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--dark-gray);
+  font-size: 0.9rem;
 }
 
 .filterItem input,
 .filterItem select {
-  width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.filterItem input:focus,
+.filterItem select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(72, 70, 109, 0.1);
 }
 
 .clearFiltersBtn {
-  background: none;
-  border: 1px solid var(--medium-gray);
+  background: #f8f9fa;
+  border: 1px solid #ddd;
   color: var(--medium-gray);
   padding: 0.75rem 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  height: 42px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: fit-content;
 }
 
 .clearFiltersBtn:hover {
-  background-color: #f0f0f0;
+  background-color: #e9ecef;
+  border-color: #adb5bd;
 }
 
+/* Section des résultats */
+.resultsSection {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  min-height: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.resultsHeader {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.resultsHeader h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Liste des courses - en dessous des filtres */
 .runsList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
 }
 
 .runCard {
-  background-color: white;
+  background: white;
+  border: 1px solid #eee;
   border-radius: var(--border-radius);
   padding: 1.5rem;
-  box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .runCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
 }
 
 .runCardHeader {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 1rem;
+}
+
+.runMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .runDate {
@@ -141,40 +234,48 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 500;
+}
+
+.runDate i {
+  color: var(--primary);
 }
 
 .privateLabel {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  background-color: rgba(72, 70, 109, 0.1);
-  color: var(--primary);
-  padding: 0.2rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
+  gap: 0.5rem;
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
 }
 
 .runLevel {
   font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.2rem 0.75rem;
-  border-radius: 12px;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .runLevel[data-level="débutant"] {
-  background-color: rgba(46, 204, 113, 0.1);
-  color: #27ae60;
+  background: #d1fae5;
+  color: #059669;
 }
 
 .runLevel[data-level="intermédiaire"] {
-  background-color: rgba(241, 196, 15, 0.1);
-  color: #f39c12;
+  background: #fef3c7;
+  color: #d97706;
 }
 
 .runLevel[data-level="avancé"] {
-  background-color: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .runTitle {
@@ -182,113 +283,216 @@
   color: var(--dark-gray);
   margin-bottom: 0.75rem;
   line-height: 1.4;
+  font-weight: 700;
 }
 
 .runLocation {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: var(--medium-gray);
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .runLocation i {
-  color: #e74c3c;
+  color: var(--secondary);
+}
+
+.runDescription {
+  color: var(--medium-gray);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-style: italic;
 }
 
 .runInfo {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
   color: var(--dark-gray);
   font-size: 0.9rem;
 }
 
-.runDistance, .runParticipants {
+.runDistance,
+.runParticipants {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 500;
 }
 
 .runDistance i {
-  color: #3498db;
+  color: var(--primary);
 }
 
 .runParticipants i {
-  color: #f39c12;
+  color: var(--secondary);
+}
+
+.runFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
 }
 
 .runOrganizer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
 }
 
 .organizerPicture {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #f3f4f6;
 }
 
 .organizerName {
   font-size: 0.9rem;
   color: var(--medium-gray);
+  font-weight: 500;
 }
 
-.loadingIndicator {
+.runCardAction {
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.runCard:hover .runCardAction {
+  transform: translateX(4px);
+}
+
+/* États de chargement et d'erreur */
+.loadingIndicator,
+.errorMessage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 3rem;
+  text-align: center;
+}
+
+.loadingIndicator {
   color: var(--medium-gray);
 }
 
 .loadingIndicator i {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: var(--primary);
 }
 
 .errorMessage {
-  padding: 2rem;
-  background-color: #ffdddd;
-  color: #e74c3c;
-  border-left: 4px solid #e74c3c;
+  background: #fee2e2;
+  color: #dc2626;
   border-radius: var(--border-radius);
-  margin-bottom: 2rem;
+  gap: 0.75rem;
 }
 
+.errorMessage i {
+  font-size: 2rem;
+}
+
+/* État vide */
 .emptyState {
   text-align: center;
-  padding: 3rem;
-  background-color: #f9f9f9;
-  border-radius: var(--border-radius);
+  padding: 3rem 1rem;
+}
+
+.emptyIcon {
+  margin-bottom: 1.5rem;
+}
+
+.emptyIcon i {
+  font-size: 4rem;
+  color: var(--light-gray);
 }
 
 .emptyState h2 {
-  color: var(--primary);
-  margin-bottom: 1rem;
+  color: var(--dark-gray);
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
 }
 
 .emptyState p {
   color: var(--medium-gray);
   margin-bottom: 1.5rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-.emptyState .createRunBtn {
-  margin: 0 auto;
-  display: inline-flex;
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .runsListPage .container {
+    padding: 0 1rem;
+  }
+  
+  .runsList {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
-  .pageHeader {
+  .pageHeader h1 {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .filtersSection,
+  .resultsSection {
+    padding: 1.5rem;
+  }
+  
+  .filters {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .runsList {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .runCard {
+    padding: 1.25rem;
+  }
+  
+  .runCardHeader {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+  
+  .runInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .runsListPage .container {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .pageHeader {
+    margin-bottom: 2rem;
+  }
+  
+  .pageHeader h1 {
+    font-size: 1.75rem;
   }
   
   .createRunBtn {
@@ -296,19 +500,8 @@
     justify-content: center;
   }
   
-  .filters {
-    flex-direction: column;
-  }
-  
-  .filterItem {
-    width: 100%;
-  }
-  
-  .clearFiltersBtn {
-    width: 100%;
-  }
-  
-  .runsList {
-    grid-template-columns: 1fr;
+  .filtersSection,
+  .resultsSection {
+    padding: 1rem;
   }
 }

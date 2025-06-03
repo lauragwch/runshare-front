@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { runService } from '../Services/api';
 import '../Styles/Pages/RunsListPage.css';
+import RunCard from '../Components/Runs/RunCard';
 
 const RunsListPage = () => {
   const [runs, setRuns] = useState([]);
@@ -14,9 +15,9 @@ const RunsListPage = () => {
     distance: '',
     search: ''
   });
-  
+
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchRuns = async () => {
       try {
@@ -30,10 +31,10 @@ const RunsListPage = () => {
         setLoading(false);
       }
     };
-    
+
     fetchRuns();
   }, [filters]);
-  
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({
@@ -41,7 +42,7 @@ const RunsListPage = () => {
       [name]: value
     }));
   };
-  
+
   const clearFilters = () => {
     setFilters({
       city: '',
@@ -51,49 +52,53 @@ const RunsListPage = () => {
       search: ''
     });
   };
-  
+
   // Fonction pour formater la date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', {
-      weekday: 'long',
+      weekday: 'short',
       day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+      month: 'short',
       hour: '2-digit',
       minute: '2-digit'
     });
   };
-  
+
   return (
     <div className="runsListPage">
       <div className="container">
+        {/* En-tête avec titre et description */}
         <div className="pageHeader">
-          <div className="headerLeft">
-            <h1>Toutes les courses</h1>
-            <p className="subtitle">Trouvez des partenaires de course dans votre région</p>
-          </div>
-          <button 
+          <h1>Découvrez les courses près de chez vous</h1>
+          <p className="subtitle">Rejoignez une communauté de coureurs passionnés et trouvez vos prochains partenaires d'entraînement</p>
+        </div>
+
+        {/* Bouton de création déplacé ici - au-dessus des filtres */}
+        <div className="createRunSection">
+          <button
             className="createRunBtn"
             onClick={() => navigate('/runs/create')}
           >
-            <i className="fa-solid fa-plus"></i> Organiser une course
+            <i className="fa-solid fa-plus"></i>
+            <span>Organiser une course</span>
           </button>
         </div>
-        
+
+        {/* Section des filtres */}
         <div className="filtersSection">
           <div className="searchFilter">
-            <input 
+            <input
               type="text"
               name="search"
               value={filters.search}
               onChange={handleFilterChange}
-              placeholder="Rechercher une course par titre ou lieu..."
+              placeholder="Rechercher par titre, lieu ou organisateur..."
               className="searchInput"
             />
             <i className="fa-solid fa-search searchIcon"></i>
           </div>
-          
+
           <div className="filters">
             <div className="filterItem">
               <label htmlFor="city">Ville</label>
@@ -106,7 +111,7 @@ const RunsListPage = () => {
                 placeholder="Toutes les villes"
               />
             </div>
-            
+
             <div className="filterItem">
               <label htmlFor="date">Date</label>
               <input
@@ -117,7 +122,7 @@ const RunsListPage = () => {
                 onChange={handleFilterChange}
               />
             </div>
-            
+
             <div className="filterItem">
               <label htmlFor="level">Niveau</label>
               <select
@@ -132,7 +137,7 @@ const RunsListPage = () => {
                 <option value="avancé">Avancé</option>
               </select>
             </div>
-            
+
             <div className="filterItem">
               <label htmlFor="distance">Distance</label>
               <select
@@ -148,85 +153,58 @@ const RunsListPage = () => {
                 <option value="15">15+ km</option>
               </select>
             </div>
-            
-            <button 
+
+            <button
               className="clearFiltersBtn"
               onClick={clearFilters}
             >
-              Effacer les filtres
+              <i className="fa-solid fa-refresh"></i>
+              Réinitialiser
             </button>
           </div>
         </div>
-        
-        {loading ? (
-          <div className="loadingIndicator">
-            <i className="fa-solid fa-spinner fa-spin"></i>
-            <span>Chargement des courses...</span>
-          </div>
-        ) : error ? (
-          <div className="errorMessage">{error}</div>
-        ) : runs.length === 0 ? (
-          <div className="emptyState">
-            <h2>Aucune course ne correspond à votre recherche</h2>
-            <p>Essayez de modifier vos filtres ou créez votre propre course !</p>
-            <button 
-              className="createRunBtn"
-              onClick={() => navigate('/runs/create')}
-            >
-              <i className="fa-solid fa-plus"></i> Organiser une course
-            </button>
-          </div>
-        ) : (
-          <div className="runsList">
-            {runs.map(run => (
-              <div key={run.id_run} className="runCard" onClick={() => navigate(`/runs/${run.id_run}`)}>
-                <div className="runCardHeader">
-                  <div className="runDate">
-                    {formatDate(run.date)}
-                    {run.is_private && (
-                      <span className="privateLabel">
-                        <i className="fa-solid fa-lock"></i> Privée
-                      </span>
-                    )}
-                  </div>
-                  <div className="runLevel" data-level={run.level}>
-                    {run.level}
-                  </div>
-                </div>
-                
-                <h3 className="runTitle">{run.title}</h3>
-                
-                <div className="runLocation">
-                  <i className="fa-solid fa-location-dot"></i>
-                  {run.location}
-                </div>
-                
-                <div className="runInfo">
-                  {run.distance && (
-                    <div className="runDistance">
-                      <i className="fa-solid fa-route"></i>
-                      {run.distance} km
-                    </div>
-                  )}
-                  
-                  <div className="runParticipants">
-                    <i className="fa-solid fa-users"></i>
-                    {run.participants_count || 0} participant(s)
-                  </div>
-                </div>
-                
-                <div className="runOrganizer">
-                  <img 
-                    src={run.organizer_picture ? `http://localhost:3000${run.organizer_picture}` : '/images/default-avatar.png'} 
-                    alt={run.organizer_name}
-                    className="organizerPicture"
-                  />
-                  <span className="organizerName">Organisé par {run.organizer_name}</span>
-                </div>
+
+        {/* Résultats - runCards en dessous des filtres */}
+        <div className="resultsSection">
+          {loading ? (
+            <div className="loadingIndicator">
+              <i className="fa-solid fa-spinner fa-spin"></i>
+              <span>Chargement des courses...</span>
+            </div>
+          ) : error ? (
+            <div className="errorMessage">
+              <i className="fa-solid fa-exclamation-triangle"></i>
+              <span>{error}</span>
+            </div>
+          ) : runs.length === 0 ? (
+            <div className="emptyState">
+              <div className="emptyIcon">
+                <i className="fa-solid fa-running"></i>
               </div>
-            ))}
-          </div>
-        )}
+              <h2>Aucune course trouvée</h2>
+              <p>Il semble qu'aucune course ne corresponde à vos critères de recherche. Pourquoi ne pas en créer une ?</p>
+              <button
+                className="createRunBtn secondary"
+                onClick={() => navigate('/runs/create')}
+              >
+                <i className="fa-solid fa-plus"></i>
+                Créer ma première course
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="resultsHeader">
+                <h2>{runs.length} course{runs.length > 1 ? 's' : ''} trouvée{runs.length > 1 ? 's' : ''}</h2>
+              </div>
+
+              <div className="runsList">
+                {runs.map(run => (
+                  <RunCard key={run.id_run} run={run} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

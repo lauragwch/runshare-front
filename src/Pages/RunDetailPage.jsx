@@ -126,6 +126,9 @@ const RunDetailPage = () => {
       const response = await runService.getById(id);
       setRun(response.data);
       
+      // Réinitialiser le formulaire
+      setRatingData({ rating: 5, comment: '' });
+      
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de l\'évaluation de la course');
     } finally {
@@ -152,7 +155,7 @@ const RunDetailPage = () => {
         <div className="container">
           <div className="errorMessage">{error}</div>
           <button className="backButton" onClick={() => navigate('/runs')}>
-            Retour à la liste des courses
+            <i className="fa-solid fa-arrow-left"></i> Retour à la liste des courses
           </button>
         </div>
       </div>
@@ -165,8 +168,8 @@ const RunDetailPage = () => {
   
   return (
     <div className="runDetailPage">
-      <div className="container">
-        <div className="runHeader">
+      <div className="runHeader">
+        <div className="runHeaderContent">
           <button className="backButton" onClick={() => navigate('/runs')}>
             <i className="fa-solid fa-arrow-left"></i> Retour
           </button>
@@ -183,27 +186,31 @@ const RunDetailPage = () => {
             
             {run.is_private && (
               <div className="privateLabel">
-                <i className="fa-solid fa-lock"></i> Course privée
+                <i className="fa-solid fa-lock"></i> Privée
               </div>
             )}
           </div>
         </div>
-        
+      </div>
+
+      <div className="container">
         <div className="runContent">
           <div className="runMainInfo">
             <h1 className="runTitle">{run.title}</h1>
             
-            <div className="runLocation">
-              <i className="fa-solid fa-location-dot"></i>
-              {run.location}
-            </div>
-            
-            {run.distance && (
-              <div className="runDistance">
-                <i className="fa-solid fa-route"></i>
-                {run.distance} km
+            <div className="runLocationDistance">
+              <div className="runLocation">
+                <i className="fa-solid fa-location-dot"></i>
+                {run.location}
               </div>
-            )}
+              
+              {run.distance && (
+                <div className="runDistance">
+                  <i className="fa-solid fa-route"></i>
+                  {run.distance} km
+                </div>
+              )}
+            </div>
             
             <div className="runOrganizer">
               <img 
@@ -211,12 +218,15 @@ const RunDetailPage = () => {
                 alt={run.organizer_name}
                 className="organizerPicture"
               />
-              <span className="organizerName">Organisé par {run.organizer_name}</span>
+              <div className="organizerInfo">
+                <div className="organizerName">{run.organizer_name}</div>
+                <div className="organizerLabel">Organisateur</div>
+              </div>
             </div>
             
             {run.description && (
               <div className="runDescription">
-                <h2>Description</h2>
+                <h2>À propos de cette course</h2>
                 <p>{run.description}</p>
               </div>
             )}
@@ -229,6 +239,7 @@ const RunDetailPage = () => {
                     onClick={handleJoinRun}
                     disabled={actionLoading}
                   >
+                    <i className="fa-solid fa-running"></i>
                     {actionLoading ? 'En cours...' : 'Rejoindre cette course'}
                   </button>
                 ) : (
@@ -237,6 +248,7 @@ const RunDetailPage = () => {
                     onClick={handleLeaveRun}
                     disabled={actionLoading}
                   >
+                    <i className="fa-solid fa-sign-out-alt"></i>
                     {actionLoading ? 'En cours...' : 'Quitter cette course'}
                   </button>
                 )}
@@ -245,7 +257,7 @@ const RunDetailPage = () => {
           </div>
           
           <div className="runSidebar">
-            <div className="participantsSection">
+            <div className="sidebarCard">
               <h2>Participants ({run.participants?.length || 0})</h2>
               
               {run.participants && run.participants.length > 0 ? (
@@ -269,12 +281,12 @@ const RunDetailPage = () => {
                   ))}
                 </ul>
               ) : (
-                <p className="noParticipants">Personne n'a encore rejoint cette course.</p>
+                <p className="noParticipants">Aucun participant pour le moment</p>
               )}
             </div>
             
             {run.ratings && run.ratings.length > 0 && (
-              <div className="ratingsSection">
+              <div className="sidebarCard">
                 <h2>Avis ({run.ratings.length})</h2>
                 <div className="ratingsList">
                   {run.ratings.map(rating => (
@@ -309,64 +321,72 @@ const RunDetailPage = () => {
             )}
             
             {isParticipant && !isOrganizer && !showRatingForm && (
-              <button 
-                className="rateRunBtn"
-                onClick={() => setShowRatingForm(true)}
-              >
-                Évaluer cette course
-              </button>
+              <div className="sidebarCard">
+                <button 
+                  className="rateRunBtn"
+                  onClick={() => setShowRatingForm(true)}
+                >
+                  <i className="fa-solid fa-star"></i>
+                  Évaluer cette course
+                </button>
+              </div>
             )}
             
             {showRatingForm && (
-              <div className="ratingForm">
-                <h3>Évaluer cette course</h3>
-                <form onSubmit={handleRateRun}>
-                  <div className="formGroup">
-                    <label htmlFor="rating">Note</label>
-                    <div className="ratingStarsInput">
-                      {[1, 2, 3, 4, 5].map(star => (
-                        <label key={star} className="starLabel">
-                          <input
-                            type="radio"
-                            name="rating"
-                            value={star}
-                            checked={ratingData.rating === star}
-                            onChange={handleRatingChange}
-                          />
-                          <i className="fa-solid fa-star"></i>
-                        </label>
-                      ))}
+              <div className="sidebarCard">
+                <div className="ratingForm">
+                  <h3>Évaluer cette course</h3>
+                  <form onSubmit={handleRateRun}>
+                    <div className="formGroup">
+                      <label htmlFor="rating">Note</label>
+                      <div className="ratingStarsInput">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <label key={star} className="starLabel">
+                            <input
+                              type="radio"
+                              name="rating"
+                              value={star}
+                              checked={ratingData.rating === star}
+                              onChange={handleRatingChange}
+                            />
+                            <i className="fa-solid fa-star"></i>
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="formGroup">
-                    <label htmlFor="comment">Commentaire (optionnel)</label>
-                    <textarea
-                      name="comment"
-                      value={ratingData.comment}
-                      onChange={handleRatingChange}
-                      placeholder="Partagez votre expérience..."
-                      rows="3"
-                    />
-                  </div>
-                  
-                  <div className="formActions">
-                    <button 
-                      type="button"
-                      className="cancelBtn"
-                      onClick={() => setShowRatingForm(false)}
-                    >
-                      Annuler
-                    </button>
-                    <button 
-                      type="submit"
-                      className="submitBtn"
-                      disabled={actionLoading}
-                    >
-                      {actionLoading ? 'Envoi...' : 'Envoyer'}
-                    </button>
-                  </div>
-                </form>
+                    
+                    <div className="formGroup">
+                      <label htmlFor="comment">Commentaire (optionnel)</label>
+                      <textarea
+                        name="comment"
+                        value={ratingData.comment}
+                        onChange={handleRatingChange}
+                        placeholder="Partagez votre expérience..."
+                        rows="3"
+                      />
+                    </div>
+                    
+                    <div className="formActions">
+                      <button 
+                        type="button"
+                        className="cancelBtn"
+                        onClick={() => {
+                          setShowRatingForm(false);
+                          setRatingData({ rating: 5, comment: '' });
+                        }}
+                      >
+                        Annuler
+                      </button>
+                      <button 
+                        type="submit"
+                        className="submitBtn"
+                        disabled={actionLoading}
+                      >
+                        {actionLoading ? 'Envoi...' : 'Envoyer'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
           </div>
