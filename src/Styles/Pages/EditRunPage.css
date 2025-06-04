@@ -1,0 +1,77 @@
+.editRunPage {
+  padding: 2rem 0;
+  padding-top: calc(6rem + var(--navbar-height, 70px));
+  min-height: calc(100vh - 150px);
+}
+
+.editRunContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--spacing-lg);
+}
+
+.editRunPage h1 {
+  color: var(--primary);
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  text-align: center; 
+  position: relative;
+}
+
+.editRunPage h1::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: var(--secondary);
+  margin: 1rem auto 0;
+}
+
+/* États de chargement et d'erreur */
+.loadingIndicator,
+.errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem;
+  text-align: center;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.loadingIndicator i {
+  font-size: 2rem;
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorMessage {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.errorMessage i {
+  font-size: 2rem;
+  color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .editRunContainer {
+    padding: 0 1rem;
+  }
+  
+  .editRunPage h1 {
+    font-size: 1.75rem;
+  }
+}

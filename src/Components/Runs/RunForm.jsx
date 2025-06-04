@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './RunForm.css';
+import '../../Styles/Runs/RunForm.css';
 
 const RunForm = ({ 
   mode = 'create', // 'create' ou 'edit'
@@ -70,21 +70,24 @@ const RunForm = ({
     updateFormDateTime(selectedDate, time);
   };
 
-  const updateFormDateTime = (date, time) => {
-    if (date && time) {
-      const [hours, minutes] = time.split(':');
-      const dateTime = new Date(date);
-      dateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-      
-      // Format MySQL DATETIME (YYYY-MM-DD HH:MM:SS)
-      const formattedDate = dateTime.toISOString().slice(0, 19).replace('T', ' ');
-      
-      setFormData(prev => ({
-        ...prev,
-        date: formattedDate
-      }));
-    }
-  };
+ const updateFormDateTime = (date, time) => {
+  if (date && time) {
+    const [hours, minutes] = time.split(':');
+    
+    // Créer une date locale SANS conversion UTC
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    // Format direct pour MySQL en gardant l'heure sélectionnée
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:00`;
+    
+    setFormData(prev => ({
+      ...prev,
+      date: formattedDate
+    }));
+  }
+};
 
   const validateForm = () => {
     const newErrors = {};

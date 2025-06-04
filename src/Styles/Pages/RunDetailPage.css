@@ -191,6 +191,52 @@
   color: #717171;
 }
 
+.organizerActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.editRunBtn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.editRunBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 70, 109, 0.3);
+}
+
+.deleteRunBtn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.deleteRunBtn:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
 /* Description */
 .runDescription {
   margin-bottom: 48px;

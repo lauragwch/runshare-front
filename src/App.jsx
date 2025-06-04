@@ -14,7 +14,7 @@ import RunsListPage from './Pages/RunsListPage';
 import RunDetailPage from './Pages/RunDetailPage';
 import CreateRunPage from './Pages/CreateRunPage';
 import UserProfilePage from './Pages/UserProfilePage';
-// import NotFoundPage from './Pages/NotFoundPage';
+import EditRunPage from './Pages/EditRunPage';
 
 function App() {
   return (
@@ -27,22 +27,28 @@ function App() {
             <Route path="reset-password" element={<ResetPasswordPage />} />
             <Route path="runs" element={<RunsListPage />} />
             <Route path="runs/:id" element={<RunDetailPage />} />
-            
+
             {/* Routes protégées */}
             <Route path="runs/create" element={
               <ProtectedRoute>
                 <CreateRunPage />
               </ProtectedRoute>
             } />
+
             <Route path="profile" element={
               <ProtectedRoute>
                 <UserProfilePage />
               </ProtectedRoute>
             } />
+
+            <Route path="runs/:id/edit" element={
+              <ProtectedRoute>
+                <EditRunPage />
+              </ProtectedRoute>
+            } />
+
             <Route path="users/:id" element={<UserProfilePage />} />
-            
-            {/* Route 404 */}
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
+
           </Route>
         </Routes>
       </AuthProvider>

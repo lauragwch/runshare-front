@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Contextes/AuthContext';
 import { runService } from '../Services/api';
 import RunForm from '../Components/Runs/RunForm';
-import '../Styles/Pages/CreateRunPage.css';
+// import '../Styles/Pages/CreateRunPage.css';
 
 const CreateRunPage = () => {
   const { currentUser } = useContext(AuthContext);

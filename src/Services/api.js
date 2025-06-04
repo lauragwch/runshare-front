@@ -69,9 +69,12 @@ export const runService = {
   getAll: (filters = {}) => api.get('/runs', { params: filters }),
   getById: (runId) => api.get(`/runs/${runId}`),
   create: (runData) => api.post('/runs', runData),
+   update: (runId, runData) => api.put(`/runs/${runId}`, runData),
+  delete: (runId) => api.delete(`/runs/${runId}`),
   join: (runId) => api.post(`/runs/${runId}/join`),
   leave: (runId) => api.delete(`/runs/${runId}/leave`),
   rateRun: (runId, ratingData) => api.post(`/runs/${runId}/rate`, ratingData)
+  
 };
 
 export default api;
