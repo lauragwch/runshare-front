@@ -5,6 +5,7 @@ import '../../Styles/Layout/NavBar.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const { currentUser, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -12,10 +13,19 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const toggleProfileDropdown = () => {
+    setProfileDropdownOpen(!profileDropdownOpen);
+  };
+
+  const closeAll = () => {
+    setMenuOpen(false);
+    setProfileDropdownOpen(false);
+  };
+
   const handleLogout = () => {
     logoutUser();
     navigate('/');
-    setMenuOpen(false);
+    closeAll();
   };
 
   return (
@@ -28,26 +38,55 @@ const Navbar = () => {
         </div>
 
         <ul className={`navLinks ${menuOpen ? 'active' : ''}`}>
-          <li><Link to="/" onClick={() => setMenuOpen(false)}>Accueil</Link></li>
+          <li><Link to="/" onClick={closeAll}>Accueil</Link></li>
           <li>
-            <Link to="/runs" onClick={() => setMenuOpen(false)}>
+            <Link to="/runs" onClick={closeAll}>
               <i className="fa-solid fa-running"></i> Courses
             </Link>
           </li>
           
           {currentUser ? (
             <>
-              <li><Link to="/runs/create" onClick={() => setMenuOpen(false)}>Créer</Link></li>
-              <li><Link to="/profile" onClick={() => setMenuOpen(false)}>Mon Profil</Link></li>
-              <li>
-                <button className="logoutBtn" onClick={handleLogout}>
-                  Déconnexion
-                </button>
+              <li><Link to="/runs/create" onClick={closeAll}>Créer</Link></li>
+              
+              {/* Menu déroulant profil */}
+              <li className="profileDropdown">
+                <div className="profileTrigger" onClick={toggleProfileDropdown}>
+                  <img 
+                    src={currentUser.profile_picture 
+                      ? `http://localhost:3000${currentUser.profile_picture}` 
+                      : '/images/default-avatar.png'
+                    }
+                    alt={currentUser.username}
+                    className="profilePic"
+                  />
+                  <span>{currentUser.username}</span>
+                  <i className={`fa-solid fa-chevron-down ${profileDropdownOpen ? 'rotated' : ''}`}></i>
+                </div>
+                
+                <div className={`dropdownMenu ${profileDropdownOpen ? 'active' : ''}`}>
+                  <Link to="/profile" onClick={closeAll}>
+                    <i className="fa-solid fa-user"></i>
+                    Mon Profil
+                  </Link>
+                  
+                  {currentUser.role === 'admin' && (
+                    <Link to="/admin" onClick={closeAll} className="adminLink">
+                      <i className="fa-solid fa-shield-alt"></i>
+                      Administration
+                    </Link>
+                  )}
+                  
+                  <button onClick={handleLogout} className="dropdownLogoutBtn">
+                    <i className="fa-solid fa-sign-out-alt"></i>
+                    Déconnexion
+                  </button>
+                </div>
               </li>
             </>
           ) : (
             <li>
-              <Link to="/auth" className="authBtn" onClick={() => setMenuOpen(false)}>
+              <Link to="/auth" className="authBtn" onClick={closeAll}>
                 Connexion / Inscription
               </Link>
             </li>

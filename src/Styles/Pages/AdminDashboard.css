@@ -1,0 +1,297 @@
+.adminDashboard {
+  padding: 2rem 0;
+  padding-top: calc(6rem + var(--navbar-height, 70px));
+  min-height: calc(100vh - 150px);
+  background: #f8fafc;
+}
+
+.adminContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* Header admin */
+.adminHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.adminHeader h1 {
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.adminHeader p {
+  color: var(--medium-gray);
+  font-size: 1.1rem;
+}
+
+/* Alerte d'erreur */
+.errorAlert {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #fecaca;
+}
+
+.errorAlert button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Navigation des onglets */
+.adminTabs {
+  display: flex;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.tabBtn {
+  flex: 1;
+  background: white;
+  border: none;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--medium-gray);
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tabBtn:hover {
+  background: #f8fafc;
+  color: var(--primary);
+}
+
+.tabBtn.active {
+  background: #f1f5f9;
+  color: var(--primary);
+  border-bottom-color: var(--secondary);
+}
+
+/* Contenu des onglets */
+.adminContent {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  min-height: 500px;
+}
+
+
+/* Tables */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.adminTable th,
+.adminTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.adminTable th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--primary);
+  position: sticky;
+  top: 0;
+}
+
+.adminTable tr:hover {
+  background: #f8fafc;
+}
+
+/* Éléments de table */
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.levelBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.levelBadge.débutant { background: #dcfce7; color: #166534; }
+.levelBadge.intermédiaire { background: #fef3c7; color: #92400e; }
+.levelBadge.avancé { background: #fee2e2; color: #991b1b; }
+
+.roleSelect {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButtons button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.viewBtn {
+  background: #3b82f6;
+  color: white;
+}
+
+.viewBtn:hover {
+  background: #2563eb;
+}
+
+.editBtn {
+  background: #f59e0b;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #d97706;
+}
+
+.deleteBtn {
+  background: #ef4444;
+  color: white;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.deleteBtn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.runInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.privateBadge {
+  background: #6b7280;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statusBadge.upcoming {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.statusBadge.past {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* Loading indicator */
+.loadingIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem;
+  text-align: center;
+}
+
+.loadingIndicator i {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .adminTabs {
+    flex-direction: column;
+  }
+  
+  .tabBtn {
+    border-bottom: 1px solid #e5e7eb;
+    border-right: none;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statCard {
+    text-align: center;
+    flex-direction: column;
+  }
+  
+  .adminTable {
+    font-size: 0.875rem;
+  }
+  
+  .adminTable th,
+  .adminTable td {
+    padding: 0.75rem 0.5rem;
+  }
+}

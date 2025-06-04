@@ -15,6 +15,12 @@ import RunDetailPage from './Pages/RunDetailPage';
 import CreateRunPage from './Pages/CreateRunPage';
 import UserProfilePage from './Pages/UserProfilePage';
 import EditRunPage from './Pages/EditRunPage';
+import AdminDashboard from './Pages/AdminDashboard';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import LegalNotice from './Pages/LegalNotice';
+import TermsOfService from './Pages/TermsOfService';
+
+
 
 function App() {
   return (
@@ -27,6 +33,9 @@ function App() {
             <Route path="reset-password" element={<ResetPasswordPage />} />
             <Route path="runs" element={<RunsListPage />} />
             <Route path="runs/:id" element={<RunDetailPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/legal-notice" element={<LegalNotice />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
 
             {/* Routes protégées */}
             <Route path="runs/create" element={
@@ -44,6 +53,12 @@ function App() {
             <Route path="runs/:id/edit" element={
               <ProtectedRoute>
                 <EditRunPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="admin" element={
+              <ProtectedRoute>
+                <AdminDashboard />
               </ProtectedRoute>
             } />
 

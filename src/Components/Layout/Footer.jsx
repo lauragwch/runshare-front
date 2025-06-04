@@ -21,18 +21,27 @@ const Footer = () => {
               <li><Link to="/auth">Inscription / Connexion</Link></li>
             </ul>
           </div>
+
+           <div className="section">
+            <h3>Légal</h3>
+            <ul>
+              <li><Link to="/privacy-policy">Politique de confidentialité</Link></li>
+              <li><Link to="/legal-notice">Mentions légales</Link></li>
+              <li><Link to="/terms-of-service">Conditions d'utilisation</Link></li>
+            </ul>
+          </div>
           
           <div className="section">
             <h3>Contact</h3>
             <p>contact@runshare.fr</p>
             <div className="socialLinks">
-              <a href="#" aria-label="Facebook">
+              <a href="https://www.facebook.com/" aria-label="Facebook">
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="#" aria-label="Twitter">
+              <a href="https://x.com/" aria-label="Twitter">
                 <i className="fab fa-twitter"></i>
               </a>
-              <a href="#" aria-label="Instagram">
+              <a href="https://www.instagram.com/" aria-label="Instagram">
                 <i className="fab fa-instagram"></i>
               </a>
             </div>
