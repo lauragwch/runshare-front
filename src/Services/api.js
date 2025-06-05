@@ -34,25 +34,26 @@ api.interceptors.response.use(
   },
   error => {
     // Si l'erreur est de type 401 (non autorisé), le token est probablement expiré
-    if (error.response && error.response.status === 401) {
+    if (error.response?.status === 401) {
       localStorage.removeItem('token');
+      window.location.href = '/auth';
     }
     
     return Promise.reject(error);
   }
 );
 
-// Authentification
+// Services d'authentification
 export const authService = {
   register: (userData) => api.post('/auth/register', userData),
   login: (credentials) => api.post('/auth/login', credentials),
   getProfile: () => api.get('/auth/profile'),
-  requestPasswordReset: (email) => api.post('/auth/forgot-password', { email }),
+  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
   verifyResetToken: (token) => api.get(`/auth/verify-token/${token}`),
   resetPassword: (token, newPassword) => api.post('/auth/reset-password', { token, newPassword })
 };
 
-// Utilisateurs
+// Services utilisateur
 export const userService = {
   getUser: (userId) => api.get(`/users/${userId}`),
   updateProfile: (userData) => api.put('/users/profile', userData),
@@ -62,29 +63,33 @@ export const userService = {
     }
   }),
   rateUser: (ratingData) => api.post('/users/rate', ratingData),
-
+  
   // Méthodes admin
   getAllUsers: () => api.get('/users/admin/all'),
   deleteUser: (userId) => api.delete(`/users/admin/${userId}`),
-  updateUserRole: (userId, role) => api.put('/users/admin/role', { userId, role }),
-
+  updateUserRole: (userId, role) => api.put('/users/admin/role', { userId, role })
 };
 
-// Courses
+// Services courses
 export const runService = {
-  getAll: (filters = {}) => api.get('/runs', { params: filters }),
-  getById: (runId) => api.get(`/runs/${runId}`),
   create: (runData) => api.post('/runs', runData),
-  update: (runId, runData) => api.put(`/runs/${runId}`, runData),
-  delete: (runId) => api.delete(`/runs/${runId}`),
-  join: (runId) => api.post(`/runs/${runId}/join`),
-  leave: (runId) => api.delete(`/runs/${runId}/leave`),
-  rateRun: (runId, ratingData) => api.post(`/runs/${runId}/rate`, ratingData),
+  getAll: (filters = {}) => {
+    const params = new URLSearchParams();
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) params.append(key, filters[key]);
+    });
+    return api.get(`/runs?${params}`);
+  },
+  getById: (id) => api.get(`/runs/${id}`),
+  update: (id, runData) => api.put(`/runs/${id}`, runData),
+  delete: (id) => api.delete(`/runs/${id}`),
+  join: (id) => api.post(`/runs/${id}/join`),
+  leave: (id) => api.delete(`/runs/${id}/leave`),
+  rate: (id, ratingData) => api.post(`/runs/${id}/rate`, ratingData),
   
   // Méthodes admin
   getAllForAdmin: () => api.get('/runs/admin/all'),
   deleteAsAdmin: (runId) => api.delete(`/runs/admin/${runId}`)
-
 };
 
 export default api;
