@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Contextes/AuthContext';
 import { runService } from '../Services/api';
 import '../Styles/Pages/RunsListPage.css';
 import RunCard from '../Components/Runs/RunCard';
@@ -17,6 +18,7 @@ const RunsListPage = () => {
   });
 
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchRuns = async () => {
@@ -74,7 +76,6 @@ const RunsListPage = () => {
           <p className="subtitle">Rejoignez une communauté de coureurs passionnés et trouvez vos prochains partenaires d'entraînement</p>
         </div>
 
-        {/* Bouton de création déplacé ici - au-dessus des filtres */}
         <div className="createRunSection">
           <button
             className="createRunBtn"
@@ -198,9 +199,25 @@ const RunsListPage = () => {
               </div>
 
               <div className="runsList">
-                {runs.map(run => (
-                  <RunCard key={run.id_run} run={run} />
-                ))}
+                {runs.map(run => {
+                  // ➕ Vérifier si l'utilisateur connecté est participant
+                  const isParticipant = currentUser && run.participants 
+                    ? run.participants.some(p => p.id_user === currentUser.id_user && p.status !== 'cancelled')
+                    : false;
+                  
+                  // ➕ Vérifier si l'utilisateur connecté est l'organisateur
+                  const isOwner = currentUser && run.id_user === currentUser.id_user;
+
+                  return (
+                    <RunCard 
+                      key={run.id_run} 
+                      run={run}
+                      showJoinButton={!isParticipant && !isOwner && !!currentUser} // ➕ Cacher le bouton si participant, organisateur ou non connecté
+                      isOwner={isOwner} // ➕ Passer l'info propriétaire
+                      showOrganizerInfo={true} // ➕ Toujours afficher l'organisateur
+                    />
+                  );
+                })}
               </div>
             </>
           )}

@@ -341,19 +341,29 @@ const UserProfilePage = () => {
           </div>
         )}
 
-        {/* Participations - UTILISER RunCard */}
-        {user.participatedRuns && user.participatedRuns.length > 0 && (
+        {/* Participations */}
+         {user.participatedRuns && user.participatedRuns.length > 0 && (
           <div className="profileSection">
-            <h3>Participations</h3>
+            <h3>Participations ({user.participatedRuns.length})</h3>
             <div className="runsList">
-              {user.participatedRuns.map(run => (
-                <RunCard 
-                  key={run.id_run}
-                  run={run}
-                  showJoinButton={false}
-                  showOrganizerInfo={true}
-                />
-              ))}
+              {user.participatedRuns.map(run => {
+                // Assurer que les données de l'organisateur sont présentes
+                const runWithOrganizerInfo = {
+                  ...run,
+                  organizer_name: run.organizer_name || 'Organisateur inconnu',
+                  organizer_picture: run.organizer_picture || null,
+                  participants_count: run.participants_count || 0
+                };
+
+                return (
+                  <RunCard 
+                    key={run.id_run}
+                    run={runWithOrganizerInfo}
+                    showJoinButton={false}
+                    showOrganizerInfo={true}
+                  />
+                );
+              })}
             </div>
           </div>
         )}

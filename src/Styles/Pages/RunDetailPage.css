@@ -1,8 +1,8 @@
 .runDetailPage {
-  padding: 0;
   background-color: #ffffff;
   min-height: 100vh;
-  padding-top: var(--navbar-height, 70px);
+    padding-top: var(--navbar-height, 70px);
+
 }
 
 .runDetailPage .container {
@@ -12,16 +12,12 @@
   padding: 0 24px;
 }
 
-/* Header avec breadcrumb et actions */
+/* Header avec breadcrumb et actions - FIXE */
 .runHeader {
-  padding: 24px 0;
+  padding: 9px 0;
   background-color: white;
   border-bottom: 1px solid #dddddd;
-  position: sticky;
-  top: var(--navbar-height, 70px);
-  z-index: 100;
-  backdrop-filter: blur(20px);
-  background-color: rgba(255, 255, 255, 0.95);
+
 }
 
 .runHeaderContent {
@@ -98,7 +94,7 @@
   color: #0d47a1;
 }
 
-/* Layout principal */
+/* Layout principal - CORRIGÉ */
 .runContent {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -258,12 +254,7 @@
 
 /* Actions principales */
 .runActions {
-  position: sticky;
-  bottom: 0;
   background-color: white;
-  border-top: 1px solid #dddddd;
-  padding: 24px 0;
-  margin-top: 48px;
 }
 
 .joinRunBtn,
@@ -305,10 +296,8 @@
   border-color: #717171;
 }
 
-/* Sidebar */
 .runSidebar {
-  position: sticky;
-  top: calc(var(--navbar-height, 70px) + 100px);
+  align-self: start;
 }
 
 .sidebarCard {
@@ -624,7 +613,6 @@
   
   .runSidebar {
     order: -1;
-    position: static;
   }
   
   .sidebarCard {
@@ -650,6 +638,7 @@
   
   .runContent {
     padding: 24px 0;
+    margin-top: 110px;
   }
   
   .runTitle {
@@ -683,13 +672,18 @@
 
 @media (max-width: 480px) {
   .runHeader {
-    position: static;
+    padding: 16px 0;
   }
   
   .runHeaderContent {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     align-items: flex-start;
+    padding: 0 16px;
+  }
+  
+  .runContent {
+    margin-top: 130px;
   }
   
   .runTitle {
