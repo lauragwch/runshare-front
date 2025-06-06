@@ -1,0 +1,303 @@
+.userRatingFormOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.userRatingForm {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.ratingFormHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.ratingFormHeader h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.closeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Section courses partagées */
+.sharedRunsInfo {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.sharedRunsInfo h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.sharedRunsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sharedRunItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sharedRunItem:last-child {
+  border-bottom: none;
+}
+
+.runTitle {
+  font-weight: 500;
+  color: #222;
+  flex: 1;
+}
+
+.runDate {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.moreRuns {
+  padding: 8px 0;
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Formulaire */
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.ratingStarsInput {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.starLabel {
+  cursor: pointer;
+  position: relative;
+}
+
+.starLabel input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.starLabel i {
+  font-size: 24px;
+  color: #ddd;
+  transition: all 0.2s ease;
+}
+
+.starLabel:hover i,
+.starLabel input:checked ~ i,
+.starLabel input:checked ~ * i {
+  color: #ffc107;
+}
+
+/* Effet hover pour les étoiles */
+.ratingStarsInput:hover .starLabel i {
+  color: #ddd;
+}
+
+.ratingStarsInput .starLabel:hover i,
+.ratingStarsInput .starLabel:hover ~ .starLabel i {
+  color: #ffc107;
+}
+
+.ratingText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.formGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.formGroup textarea:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.characterCount {
+  text-align: right;
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+/* Message d'erreur */
+.errorMessage {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.errorMessage i {
+  font-size: 16px;
+}
+
+/* Actions du formulaire */
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.cancelBtn,
+.submitBtn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+}
+
+.cancelBtn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.cancelBtn:disabled,
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .userRatingFormOverlay {
+    padding: 16px;
+  }
+  
+  .userRatingForm {
+    padding: 20px;
+  }
+  
+  .ratingFormHeader h3 {
+    font-size: 18px;
+  }
+  
+  .formActions {
+    flex-direction: column;
+  }
+  
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

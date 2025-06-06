@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Contextes/AuthContext';
 import { userService } from '../Services/api';
 import RunCard from '../Components/Runs/RunCard'; 
+import UserRatingForm from '../Components/User/UserRatingForm';
 import '../Styles/Pages/UserProfilePage.css';
 
 const UserProfilePage = () => {
@@ -25,6 +26,42 @@ const UserProfilePage = () => {
     level: 'débutant',
     bio: ''
   });
+
+  // États pour la notation utilisateur
+  const [showRatingForm, setShowRatingForm] = useState(false);
+  const [sharedRuns, setSharedRuns] = useState([]);
+  const [canRateUser, setCanRateUser] = useState(false);
+
+  // Fonction pour vérifier si l'utilisateur peut être noté
+  const checkCanRateUser = async () => {
+    if (!currentUser || isOwnProfile) {
+      setCanRateUser(false);
+      return;
+    }
+    
+    try {
+      const response = await userService.getSharedPastRuns(user.id_user);
+      setSharedRuns(response);
+      setCanRateUser(response.length > 0);
+    } catch (error) {
+      console.error('Erreur lors de la vérification:', error);
+      setCanRateUser(false);
+    }
+  };
+
+  // ➕ NOUVELLE Fonction pour gérer le succès de la notation
+  const handleRatingSuccess = async () => {
+    setShowRatingForm(false);
+    
+    // Recharger le profil pour afficher la nouvelle évaluation
+    try {
+      const targetUserId = id || currentUser?.id_user;
+      const response = await userService.getUser(targetUserId);
+      setUser(response.data);
+    } catch (error) {
+      console.error('Erreur lors du rechargement:', error);
+    }
+  };
 
   // Effet pour charger les données du profil
   useEffect(() => {
@@ -66,6 +103,14 @@ const UserProfilePage = () => {
 
     fetchUserProfile();
   }, [id, currentUser, navigate]);
+
+  // ➕ NOUVEAU useEffect pour vérifier si l'utilisateur peut être noté
+  useEffect(() => {
+    // Vérifier si l'utilisateur peut être noté
+    if (user && !isOwnProfile && currentUser) {
+      checkCanRateUser();
+    }
+  }, [user, currentUser, isOwnProfile]);
 
   // Fonction pour gérer la soumission du formulaire d'édition
   const handleSubmit = async (e) => {
@@ -244,6 +289,7 @@ const UserProfilePage = () => {
               </div>
             </div>
 
+            {/* ➕ NOUVEAU : Actions pour son propre profil */}
             {isOwnProfile && (
               <div className="profileActions">
                 {editMode ? (
@@ -263,6 +309,29 @@ const UserProfilePage = () => {
                     Modifier le profil
                   </button>
                 )}
+              </div>
+            )}
+
+            {/* ➕ NOUVEAU : Actions pour noter un autre utilisateur */}
+            {!isOwnProfile && canRateUser && (
+              <div className="profileActions">
+                <button 
+                  className="rateUserBtn"
+                  onClick={() => setShowRatingForm(true)}
+                >
+                  <i className="fa-solid fa-star"></i>
+                  Évaluer cet utilisateur
+                </button>
+              </div>
+            )}
+
+            {/* ➕ NOUVEAU : Message informatif si notation impossible */}
+            {!isOwnProfile && !canRateUser && currentUser && (
+              <div className="profileActions">
+                <div className="infoMessage">
+                  <i className="fa-solid fa-info-circle"></i>
+                  <span>Vous pourrez évaluer cet utilisateur après avoir participé ensemble à une course terminée</span>
+                </div>
               </div>
             )}
           </div>
@@ -323,7 +392,7 @@ const UserProfilePage = () => {
           </div>
         )}
 
-        {/* Courses organisées - AVEC showOrganizerInfo */}
+        {/* Courses organisées */}
         {user.organizedRuns && user.organizedRuns.length > 0 && (
           <div className="profileSection">
             <h3>Courses organisées</h3>
@@ -342,7 +411,7 @@ const UserProfilePage = () => {
         )}
 
         {/* Participations */}
-         {user.participatedRuns && user.participatedRuns.length > 0 && (
+        {user.participatedRuns && user.participatedRuns.length > 0 && (
           <div className="profileSection">
             <h3>Participations ({user.participatedRuns.length})</h3>
             <div className="runsList">
@@ -366,6 +435,16 @@ const UserProfilePage = () => {
               })}
             </div>
           </div>
+        )}
+
+        {/* ➕ NOUVEAU : Modal de notation utilisateur */}
+        {showRatingForm && (
+          <UserRatingForm
+            targetUser={user}
+            sharedRuns={sharedRuns}
+            onSuccess={handleRatingSuccess}
+            onCancel={() => setShowRatingForm(false)}
+          />
         )}
       </div>
     </div>

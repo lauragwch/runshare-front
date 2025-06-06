@@ -62,7 +62,15 @@ export const userService = {
       'Content-Type': 'multipart/form-data'
     }
   }),
-  rateUser: (ratingData) => api.post('/users/rate', ratingData),
+  
+  // Noter un utilisateur
+  rateUser: (userId, ratingData) => api.post('/users/rate', {
+    userId,
+    ...ratingData
+  }),
+  
+  // Récupérer les courses partagées passées avec un utilisateur
+  getSharedPastRuns: (userId) => api.get(`/users/${userId}/shared-runs`),
   
   // Méthodes admin
   getAllUsers: () => api.get('/users/admin/all'),
