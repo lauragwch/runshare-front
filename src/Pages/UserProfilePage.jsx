@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Contextes/AuthContext';
 import { userService } from '../Services/api';
 import RunCard from '../Components/Runs/RunCard'; 
-import UserRatingForm from '../Components/User/UserRatingForm';
+import UserRatingForm from '../Components/Users/UserRatingForm';
 import '../Styles/Pages/UserProfilePage.css';
 
 const UserProfilePage = () => {

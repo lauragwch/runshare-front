@@ -1,8 +1,7 @@
 .runDetailPage {
   background-color: #ffffff;
   min-height: 100vh;
-    padding-top: var(--navbar-height, 70px);
-
+  padding-top: var(--navbar-height, 70px);
 }
 
 .runDetailPage .container {
@@ -17,7 +16,6 @@
   padding: 9px 0;
   background-color: white;
   border-bottom: 1px solid #dddddd;
-
 }
 
 .runHeaderContent {
@@ -94,7 +92,7 @@
   color: #0d47a1;
 }
 
-/* Layout principal - CORRIGÉ */
+/* Layout principal */
 .runContent {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -421,8 +419,25 @@
 }
 
 .ratingStars {
-  color: #ffc107;
-  font-size: 12px;
+  display: flex;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.ratingStars i.fa-solid.fa-star {
+  color: #ffc107; 
+}
+
+.ratingStars i.fa-regular.fa-star {
+  color: #dddddd; 
+}
+
+.ratingItem .ratingStars i.fa-solid.fa-star {
+  color: #ffc107 !important; 
+}
+
+.ratingItem .ratingStars i.fa-regular.fa-star {
+  color: #dddddd !important; 
 }
 
 .ratingComment {
@@ -479,27 +494,107 @@
   margin-bottom: 8px;
 }
 
+/* SECTION ÉTOILES */
 .ratingStarsInput {
   display: flex;
   gap: 4px;
+  margin-bottom: 8px;
 }
 
 .starLabel {
   cursor: pointer;
+  position: relative;
+}
+
+.starLabel input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.starLabel i {
   font-size: 24px;
   color: #dddddd;
   transition: color 0.2s ease;
 }
 
-.starLabel input {
-  display: none;
-}
-
-.starLabel:hover,
-.starLabel input:checked ~ i,
-.starLabel input:checked + i {
+/* CSS pour afficher les étoiles sélectionnées de gauche à droite */
+.ratingStarsInput:has(.starLabel:nth-child(1) input:checked) .starLabel:nth-child(1) i {
   color: #ffc107;
 }
+
+.ratingStarsInput:has(.starLabel:nth-child(2) input:checked) .starLabel:nth-child(-n+2) i {
+  color: #ffc107;
+}
+
+.ratingStarsInput:has(.starLabel:nth-child(3) input:checked) .starLabel:nth-child(-n+3) i {
+  color: #ffc107;
+}
+
+.ratingStarsInput:has(.starLabel:nth-child(4) input:checked) .starLabel:nth-child(-n+4) i {
+  color: #ffc107;
+}
+
+.ratingStarsInput:has(.starLabel:nth-child(5) input:checked) .starLabel:nth-child(-n+5) i {
+  color: #ffc107;
+}
+
+/* EFFET HOVER pour preview de gauche à droite */
+.ratingStarsInput:hover .starLabel i {
+  color: #dddddd; /* Reset toutes les étoiles au survol */
+}
+
+/* Survol étoile 1 = 1 étoile jaune */
+.ratingStarsInput .starLabel:nth-child(1):hover i {
+  color: #ffc107;
+}
+
+/* Survol étoile 2 = 2 étoiles jaunes */
+.ratingStarsInput .starLabel:nth-child(2):hover i,
+.ratingStarsInput .starLabel:nth-child(2):hover ~ .starLabel:nth-child(1) i {
+  color: #ffc107;
+}
+
+/* Survol étoile 3 = 3 étoiles jaunes */
+.ratingStarsInput .starLabel:nth-child(3):hover i,
+.ratingStarsInput .starLabel:nth-child(3):hover ~ .starLabel:nth-child(-n+2) i {
+  color: #ffc107;
+}
+
+/* Survol étoile 4 = 4 étoiles jaunes */
+.ratingStarsInput .starLabel:nth-child(4):hover i,
+.ratingStarsInput .starLabel:nth-child(4):hover ~ .starLabel:nth-child(-n+3) i {
+  color: #ffc107;
+}
+
+/* Survol étoile 5 = 5 étoiles jaunes */
+.ratingStarsInput .starLabel:nth-child(5):hover i,
+.ratingStarsInput .starLabel:nth-child(5):hover ~ .starLabel:nth-child(-n+4) i {
+  color: #ffc107;
+}
+
+.ratingStarsInput .starLabel:hover i {
+  color: #ffc107;
+}
+
+.ratingStarsInput .starLabel:hover ~ .starLabel i {
+  color: #dddddd;
+}
+
+/* Priorité pour maintenir les étoiles sélectionnées même au hover */
+.ratingStarsInput:has(input:checked) .starLabel i {
+  color: #dddddd;
+}
+
+.ratingStarsInput:has(.starLabel:nth-child(1) input:checked) .starLabel:nth-child(1) i,
+.ratingStarsInput:has(.starLabel:nth-child(2) input:checked) .starLabel:nth-child(-n+2) i,
+.ratingStarsInput:has(.starLabel:nth-child(3) input:checked) .starLabel:nth-child(-n+3) i,
+.ratingStarsInput:has(.starLabel:nth-child(4) input:checked) .starLabel:nth-child(-n+4) i,
+.ratingStarsInput:has(.starLabel:nth-child(5) input:checked) .starLabel:nth-child(-n+5) i {
+  color: #ffc107 !important;
+}
+/* ➕ FIN SECTION ÉTOILES */
 
 .formGroup textarea {
   width: 100%;

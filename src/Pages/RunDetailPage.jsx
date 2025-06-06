@@ -31,7 +31,7 @@ const RunDetailPage = () => {
     // Traiter comme heure locale
     const isoString = dateString.includes('T') ? dateString : dateString.replace(' ', 'T');
     const date = new Date(isoString);
-    
+
     return date.toLocaleDateString('fr-FR', {
       weekday: 'long',
       day: 'numeric',
@@ -76,7 +76,7 @@ const RunDetailPage = () => {
     if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette course ? Cette action est irréversible.')) {
       return;
     }
-    
+
     try {
       setActionLoading(true);
       await runService.delete(id);
@@ -139,13 +139,12 @@ const RunDetailPage = () => {
     }));
   };
 
-  // ➕ FONCTION MODIFIÉE avec gestion d'erreur améliorée
   const handleRateRun = async (e) => {
     e.preventDefault();
 
     try {
       setActionLoading(true);
-      await runService.rateRun(id, ratingData);
+      await runService.rate(id, ratingData);
 
       // Fermer le formulaire et actualiser les détails de la course
       setShowRatingForm(false);
@@ -162,7 +161,7 @@ const RunDetailPage = () => {
       // ➕ Messages d'erreur plus explicites
       const errorMessage = err.response?.data?.message || 'Erreur lors de l\'évaluation de la course';
       setError(errorMessage);
-      
+
       // Fermer le formulaire si c'est une erreur de logique métier
       if (errorMessage.includes('après sa réalisation') || errorMessage.includes('participé')) {
         setShowRatingForm(false);
@@ -360,8 +359,7 @@ const RunDetailPage = () => {
                           {Array.from({ length: 5 }).map((_, index) => (
                             <i
                               key={index}
-                              className={`fa-solid ${index < rating.rating ? 'fa-star' : 'fa-star-o'}`}
-                            ></i>
+                              className={index < rating.rating ? 'fa-solid fa-star' : 'fa-regular fa-star'}                            ></i>
                           ))}
                         </div>
                       </div>
