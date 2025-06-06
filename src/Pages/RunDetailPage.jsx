@@ -20,20 +20,27 @@ const RunDetailPage = () => {
   const [isParticipant, setIsParticipant] = useState(false);
   const [isOrganizer, setIsOrganizer] = useState(false);
 
- const formatDate = (dateString) => {
-  // Traiter comme heure locale
-  const isoString = dateString.includes('T') ? dateString : dateString.replace(' ', 'T');
-  const date = new Date(isoString);
-  
-  return date.toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-};
+  // ➕ NOUVELLE fonction helper pour vérifier si la course est passée
+  const isCoursePast = (dateString) => {
+    const courseDate = new Date(dateString);
+    const now = new Date();
+    return courseDate < now;
+  };
+
+  const formatDate = (dateString) => {
+    // Traiter comme heure locale
+    const isoString = dateString.includes('T') ? dateString : dateString.replace(' ', 'T');
+    const date = new Date(isoString);
+    
+    return date.toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
 
   useEffect(() => {
     const fetchRunDetails = async () => {
@@ -66,20 +73,20 @@ const RunDetailPage = () => {
   }, [id, currentUser]);
 
   const handleDeleteRun = async () => {
-  if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette course ? Cette action est irréversible.')) {
-    return;
-  }
-  
-  try {
-    setActionLoading(true);
-    await runService.delete(id);
-    navigate('/runs');
-  } catch (err) {
-    setError(err.response?.data?.message || 'Erreur lors de la suppression de la course');
-  } finally {
-    setActionLoading(false);
-  }
-};
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette course ? Cette action est irréversible.')) {
+      return;
+    }
+    
+    try {
+      setActionLoading(true);
+      await runService.delete(id);
+      navigate('/runs');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Erreur lors de la suppression de la course');
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   const handleJoinRun = async () => {
     if (!currentUser) {
@@ -132,6 +139,7 @@ const RunDetailPage = () => {
     }));
   };
 
+  // ➕ FONCTION MODIFIÉE avec gestion d'erreur améliorée
   const handleRateRun = async (e) => {
     e.preventDefault();
 
@@ -147,8 +155,18 @@ const RunDetailPage = () => {
       // Réinitialiser le formulaire
       setRatingData({ rating: 5, comment: '' });
 
+      // ➕ Message de succès
+      alert('Évaluation ajoutée avec succès !');
+
     } catch (err) {
-      setError(err.response?.data?.message || 'Erreur lors de l\'évaluation de la course');
+      // ➕ Messages d'erreur plus explicites
+      const errorMessage = err.response?.data?.message || 'Erreur lors de l\'évaluation de la course';
+      setError(errorMessage);
+      
+      // Fermer le formulaire si c'est une erreur de logique métier
+      if (errorMessage.includes('après sa réalisation') || errorMessage.includes('participé')) {
+        setShowRatingForm(false);
+      }
     } finally {
       setActionLoading(false);
     }
@@ -248,6 +266,7 @@ const RunDetailPage = () => {
                 <p>{run.description}</p>
               </div>
             )}
+
             {isOrganizer && (
               <div className="organizerActions">
                 <button
@@ -267,7 +286,6 @@ const RunDetailPage = () => {
                 </button>
               </div>
             )}
-
 
             {!isOrganizer && (
               <div className="runActions">
@@ -291,7 +309,6 @@ const RunDetailPage = () => {
                   </button>
                 )}
               </div>
-
             )}
           </div>
 
@@ -359,7 +376,8 @@ const RunDetailPage = () => {
               </div>
             )}
 
-            {isParticipant && !isOrganizer && !showRatingForm && (
+            {/* ➕ BOUTON ÉVALUER - CONDITION MODIFIÉE avec vérification date passée */}
+            {isParticipant && !isOrganizer && !showRatingForm && isCoursePast(run.date) && (
               <div className="sidebarCard">
                 <button
                   className="rateRunBtn"
@@ -368,6 +386,16 @@ const RunDetailPage = () => {
                   <i className="fa-solid fa-star"></i>
                   Évaluer cette course
                 </button>
+              </div>
+            )}
+
+            {/* ➕ NOUVEAU : Message si course non terminée */}
+            {isParticipant && !isOrganizer && !isCoursePast(run.date) && (
+              <div className="sidebarCard">
+                <div className="infoMessage">
+                  <i className="fa-solid fa-clock"></i>
+                  <span>Vous pourrez évaluer cette course après sa réalisation</span>
+                </div>
               </div>
             )}
 
