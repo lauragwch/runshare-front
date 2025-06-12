@@ -19,8 +19,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import LegalNotice from './Pages/LegalNotice';
 import TermsOfService from './Pages/TermsOfService';
-
-
+import MessagesPage from './Pages/MessagesPage'; 
 
 function App() {
   return (
@@ -59,6 +58,18 @@ function App() {
             <Route path="admin" element={
               <ProtectedRoute>
                 <AdminDashboard />
+              </ProtectedRoute>
+            } />
+
+            <Route path="messages" element={
+              <ProtectedRoute>
+                <MessagesPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="messages/:userId" element={
+              <ProtectedRoute>
+                <MessagesPage />
               </ProtectedRoute>
             } />
 

@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contextes/AuthContext';
+import MessageDropdown from '../Messages/MessageDropdown';
 import '../../Styles/Layout/NavBar.css';
 
 const Navbar = () => {
@@ -49,6 +50,10 @@ const Navbar = () => {
             <>
               <li><Link to="/runs/create" onClick={closeAll}>Créer</Link></li>
               
+              <li className="messageDropdownContainer">
+                <MessageDropdown />
+              </li>
+              
               {/* Menu déroulant profil */}
               <li className="profileDropdown">
                 <div className="profileTrigger" onClick={toggleProfileDropdown}>
@@ -68,6 +73,11 @@ const Navbar = () => {
                   <Link to="/profile" onClick={closeAll}>
                     <i className="fa-solid fa-user"></i>
                     Mon Profil
+                  </Link>
+                  
+                  <Link to="/messages" onClick={closeAll}>
+                    <i className="fa-solid fa-envelope"></i>
+                    Messages
                   </Link>
                   
                   {currentUser.role === 'admin' && (

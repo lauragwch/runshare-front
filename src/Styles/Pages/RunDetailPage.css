@@ -651,6 +651,40 @@
   background-color: #484848;
 }
 
+.participantActionsGroup {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.contactBtn {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.contactBtn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ba085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 16px rgba(40, 167, 69, 0.3);
+}
+
+.contactBtn:active {
+  transform: translateY(0);
+}
+
 /* États de chargement et d'erreur */
 .runDetailPage.loading,
 .runDetailPage.error {
@@ -779,6 +813,16 @@
   .cancelBtn,
   .submitBtn {
     width: 100%;
+  }
+
+    .participantActionsGroup {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .contactBtn {
+    width: 100%;
+    min-width: auto;
   }
 }
 

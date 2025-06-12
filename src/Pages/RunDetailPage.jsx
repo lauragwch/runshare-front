@@ -154,11 +154,9 @@ const RunDetailPage = () => {
       // Réinitialiser le formulaire
       setRatingData({ rating: 5, comment: '' });
 
-      // ➕ Message de succès
       alert('Évaluation ajoutée avec succès !');
 
     } catch (err) {
-      // ➕ Messages d'erreur plus explicites
       const errorMessage = err.response?.data?.message || 'Erreur lors de l\'évaluation de la course';
       setError(errorMessage);
 
@@ -169,6 +167,14 @@ const RunDetailPage = () => {
     } finally {
       setActionLoading(false);
     }
+  };
+
+  const handleContactOrganizer = () => {
+    if (!currentUser) {
+      navigate('/auth');
+      return;
+    }
+    navigate(`/messages/${run.id_user}`);
   };
 
   if (loading) {
@@ -298,14 +304,24 @@ const RunDetailPage = () => {
                     {actionLoading ? 'En cours...' : 'Rejoindre cette course'}
                   </button>
                 ) : (
-                  <button
-                    className="leaveRunBtn"
-                    onClick={handleLeaveRun}
-                    disabled={actionLoading}
-                  >
-                    <i className="fa-solid fa-sign-out-alt"></i>
-                    {actionLoading ? 'En cours...' : 'Quitter cette course'}
-                  </button>
+                  <div className="participantActionsGroup">
+                    <button
+                      className="leaveRunBtn"
+                      onClick={handleLeaveRun}
+                      disabled={actionLoading}
+                    >
+                      <i className="fa-solid fa-sign-out-alt"></i>
+                      {actionLoading ? 'En cours...' : 'Quitter cette course'}
+                    </button>
+
+                    <button
+                      className="contactBtn"
+                      onClick={handleContactOrganizer}
+                    >
+                      <i className="fa-solid fa-envelope"></i>
+                      Contacter l'organisateur
+                    </button>
+                  </div>
                 )}
               </div>
             )}
@@ -374,7 +390,7 @@ const RunDetailPage = () => {
               </div>
             )}
 
-            {/* ➕ BOUTON ÉVALUER - CONDITION MODIFIÉE avec vérification date passée */}
+            {/* Bouton pour évaluer - condition avec vérification date passée */}
             {isParticipant && !isOrganizer && !showRatingForm && isCoursePast(run.date) && (
               <div className="sidebarCard">
                 <button
@@ -387,7 +403,7 @@ const RunDetailPage = () => {
               </div>
             )}
 
-            {/* ➕ NOUVEAU : Message si course non terminée */}
+            {/* Message si course non terminée */}
             {isParticipant && !isOrganizer && !isCoursePast(run.date) && (
               <div className="sidebarCard">
                 <div className="infoMessage">

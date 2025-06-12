@@ -100,4 +100,23 @@ export const runService = {
   deleteAsAdmin: (runId) => api.delete(`/runs/admin/${runId}`)
 };
 
+// Services messages
+export const messageService = {
+  // Envoyer un message
+  sendMessage: (recipientId, content) => 
+    api.post('/messages/send', { recipientId, content }),
+
+  // Récupérer la conversation avec un utilisateur
+  getConversation: (userId) => 
+    api.get(`/messages/conversation/${userId}`),
+
+  // Récupérer toutes les conversations
+  getUserConversations: () => 
+    api.get('/messages/conversations'),
+
+  // Compter les messages reçus (pour le badge)
+  getMessageCount: () => 
+    api.get('/messages/count')
+};
+
 export default api;
