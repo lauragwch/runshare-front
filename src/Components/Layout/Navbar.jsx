@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contextes/AuthContext';
-import MessageDropdown from '../Messages/MessageDropdown';
+import MessageDropdown from './MessageDropDown';
 import '../../Styles/Layout/NavBar.css';
 
 const Navbar = () => {
