@@ -112,6 +112,7 @@
   overflow-y: auto;
   padding: 1rem 0;
   max-height: 400px;
+  min-height: 300px;
 }
 
 .message {
@@ -211,21 +212,10 @@
   color: var(--medium-gray);
 }
 
-.emptyState p,
-.loadingState p,
-.noSelection p {
-  margin: 0.5rem 0;
-}
-
-.noSelection h2 {
-  color: var(--primary);
-  margin-bottom: 1rem;
-}
-
 .errorMessage {
-  background: #fee2e2;
+  background-color: #fee2e2;
   color: #dc2626;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: var(--border-radius);
   margin-bottom: 1rem;
   text-align: center;
@@ -235,23 +225,20 @@
 @media (max-width: 768px) {
   .messagesLayout {
     grid-template-columns: 1fr;
+    min-height: 50vh;
   }
   
   .conversationsList {
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
+    max-height: 300px;
   }
   
-  .conversationItem {
-    padding: 0.75rem;
+  .chatZone {
+    min-height: 400px;
   }
   
-  .userAvatar {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .messageContent {
-    max-width: 85%;
+  .messagesContainer {
+    max-height: 250px;
   }
 }

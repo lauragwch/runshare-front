@@ -10,7 +10,7 @@ const MessagesPage = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { conversations, refreshConversations, refreshMessageCount } = useMessages();
-  
+
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -18,26 +18,66 @@ const MessagesPage = () => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
 
-  // Charger la conversation si targetUserId est fourni
   useEffect(() => {
-    if (targetUserId && conversations.length > 0) {
-      const user = conversations.find(c => c.other_user_id === parseInt(targetUserId));
-      if (user) {
-        setSelectedUser(user);
+    if (targetUserId) {
+      // MARQUER LA VISITE quand on ouvre une conversation
+      localStorage.setItem('lastMessageVisit', new Date().toISOString());
+
+      const existingUser = conversations.find(c => c.other_user_id === parseInt(targetUserId));
+
+      if (existingUser) {
+        setSelectedUser(existingUser);
         loadConversation(targetUserId);
+      } else {
+        createTempUserForNewConversation(targetUserId);
       }
+       // Rafraîchir le compteur après marquage
+    refreshMessageCount();
     }
   }, [targetUserId, conversations]);
+
+  const createTempUserForNewConversation = async (userId) => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+
+        setSelectedUser({
+          other_user_id: parseInt(userId),
+          other_user_name: userData.username,
+          other_user_picture: userData.profile_picture,
+          last_message: '',
+          last_message_time: new Date().toISOString()
+        });
+        setMessages([]);
+        setError(null);
+      } else {
+        setError('Utilisateur non trouvé');
+      }
+    } catch (error) {
+      setError('Impossible de démarrer la conversation');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const loadConversation = async (userId) => {
     try {
       setLoading(true);
       setError(null);
+
       const response = await messageService.getConversation(userId);
       setMessages(response.data);
     } catch (error) {
-      console.error('Erreur lors du chargement de la conversation:', error);
       setError('Erreur lors du chargement de la conversation');
+      setMessages([]);
     } finally {
       setLoading(false);
     }
@@ -50,17 +90,16 @@ const MessagesPage = () => {
     try {
       setSending(true);
       setError(null);
-      
+
       await messageService.sendMessage(selectedUser.other_user_id, newMessage.trim());
       setNewMessage('');
-      
-      // Recharger la conversation
+
       await loadConversation(selectedUser.other_user_id);
       refreshConversations();
       refreshMessageCount();
+
     } catch (error) {
-      console.error('Erreur lors de l\'envoi du message:', error);
-      setError('Erreur lors de l\'envoi du message');
+      setError(error.response?.data?.message || 'Erreur lors de l\'envoi du message');
     } finally {
       setSending(false);
     }
@@ -74,8 +113,8 @@ const MessagesPage = () => {
 
   const formatTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('fr-FR', { 
-      day: '2-digit', 
+    return date.toLocaleString('fr-FR', {
+      day: '2-digit',
       month: '2-digit',
       hour: '2-digit',
       minute: '2-digit'
@@ -91,7 +130,7 @@ const MessagesPage = () => {
     <div className="messagesPage">
       <div className="container">
         <h1>Messages</h1>
-        
+
         <div className="messagesLayout">
           {/* Liste des conversations */}
           <div className="conversationsList">
@@ -99,16 +138,17 @@ const MessagesPage = () => {
             {conversations.length === 0 ? (
               <div className="emptyState">
                 <p>Aucune conversation</p>
+                <p>Contactez un organisateur depuis une course pour commencer !</p>
               </div>
             ) : (
               conversations.map((conversation) => (
-                <div 
+                <div
                   key={conversation.other_user_id}
                   className={`conversationItem ${selectedUser?.other_user_id === conversation.other_user_id ? 'active' : ''}`}
                   onClick={() => handleConversationSelect(conversation)}
                 >
-                  <img 
-                    src={conversation.other_user_picture ? `http://localhost:3000${conversation.other_user_picture}` : '/images/default-avatar.png'} 
+                  <img
+                    src={conversation.other_user_picture ? `http://localhost:3000${conversation.other_user_picture}` : '/images/default-avatar.png'}
                     alt={conversation.other_user_name}
                     className="userAvatar"
                   />
@@ -126,8 +166,8 @@ const MessagesPage = () => {
             {selectedUser ? (
               <>
                 <div className="chatHeader">
-                  <img 
-                    src={selectedUser.other_user_picture ? `http://localhost:3000${selectedUser.other_user_picture}` : '/images/default-avatar.png'} 
+                  <img
+                    src={selectedUser.other_user_picture ? `http://localhost:3000${selectedUser.other_user_picture}` : '/images/default-avatar.png'}
                     alt={selectedUser.other_user_name}
                     className="userAvatar"
                   />
@@ -143,15 +183,18 @@ const MessagesPage = () => {
                 <div className="messagesContainer">
                   {loading ? (
                     <div className="loadingState">
+                      <i className="fa-solid fa-spinner fa-spin"></i>
                       <p>Chargement...</p>
                     </div>
                   ) : messages.length === 0 ? (
                     <div className="emptyState">
+                      <i className="fa-solid fa-comments"></i>
                       <p>Aucun message dans cette conversation</p>
+                      <p>Envoyez votre premier message !</p>
                     </div>
                   ) : (
                     messages.map((message) => (
-                      <div 
+                      <div
                         key={message.id_message}
                         className={`message ${message.id_sender === currentUser.id_user ? 'sent' : 'received'}`}
                       >
@@ -175,17 +218,22 @@ const MessagesPage = () => {
                     disabled={sending}
                     className="messageInput"
                   />
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={!newMessage.trim() || sending}
                     className="sendButton"
                   >
-                    {sending ? 'Envoi...' : 'Envoyer'}
+                    {sending ? (
+                      <i className="fa-solid fa-spinner fa-spin"></i>
+                    ) : (
+                      <i className="fa-solid fa-paper-plane"></i>
+                    )}
                   </button>
                 </form>
               </>
             ) : (
               <div className="noSelection">
+                <i className="fa-solid fa-envelope-open"></i>
                 <h2>Sélectionnez une conversation</h2>
                 <p>Choisissez une conversation dans la liste pour commencer à discuter</p>
               </div>

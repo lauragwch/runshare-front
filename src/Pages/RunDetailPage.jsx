@@ -20,7 +20,7 @@ const RunDetailPage = () => {
   const [isParticipant, setIsParticipant] = useState(false);
   const [isOrganizer, setIsOrganizer] = useState(false);
 
-  // ➕ NOUVELLE fonction helper pour vérifier si la course est passée
+  // Fonction helper pour vérifier si la course est passée
   const isCoursePast = (dateString) => {
     const courseDate = new Date(dateString);
     const now = new Date();
@@ -169,12 +169,22 @@ const RunDetailPage = () => {
     }
   };
 
+  // Contacter l'organisateur (pour les participants)
   const handleContactOrganizer = () => {
     if (!currentUser) {
       navigate('/auth');
       return;
     }
     navigate(`/messages/${run.id_user}`);
+  };
+
+  // Contacter un participant (pour l'organisateur)
+  const handleContactParticipant = (participantId) => {
+    if (!currentUser) {
+      navigate('/auth');
+      return;
+    }
+    navigate(`/messages/${participantId}`);
   };
 
   if (loading) {
@@ -337,16 +347,34 @@ const RunDetailPage = () => {
                     <li
                       key={participant.id_user}
                       className="participantItem"
-                      onClick={() => navigate(`/users/${participant.id_user}`)}
                     >
                       <img
                         src={participant.profile_picture ? `http://localhost:3000${participant.profile_picture}` : '/images/default-avatar.png'}
                         alt={participant.username}
                         className="participantPicture"
+                        onClick={() => navigate(`/users/${participant.id_user}`)}
                       />
-                      <span className="participantName">{participant.username}</span>
-                      {participant.status === 'pending' && (
-                        <span className="pendingStatus">En attente</span>
+                      <div className="participantInfo">
+                        <span
+                          className="participantName"
+                          onClick={() => navigate(`/users/${participant.id_user}`)}
+                        >
+                          {participant.username}
+                        </span>
+                        {participant.status === 'pending' && (
+                          <span className="pendingStatus">En attente</span>
+                        )}
+                      </div>
+
+                      {/* Bouton contacter pour l'organisateur mais en excluant l'organisateur lui-même*/}
+                      {isOrganizer && participant.id_user !== currentUser.id_user && (
+                        <button
+                          className="contactParticipantBtn"
+                          onClick={() => handleContactParticipant(participant.id_user)}
+                          title={`Contacter ${participant.username}`}
+                        >
+                          <i className="fa-solid fa-envelope"></i>
+                        </button>
                       )}
                     </li>
                   ))}
@@ -375,7 +403,8 @@ const RunDetailPage = () => {
                           {Array.from({ length: 5 }).map((_, index) => (
                             <i
                               key={index}
-                              className={index < rating.rating ? 'fa-solid fa-star' : 'fa-regular fa-star'}                            ></i>
+                              className={index < rating.rating ? 'fa-solid fa-star' : 'fa-regular fa-star'}
+                            ></i>
                           ))}
                         </div>
                       </div>
@@ -390,7 +419,7 @@ const RunDetailPage = () => {
               </div>
             )}
 
-            {/* Bouton pour évaluer - condition avec vérification date passée */}
+            {/* Bouton évaluer - condition avec vérification date passée */}
             {isParticipant && !isOrganizer && !showRatingForm && isCoursePast(run.date) && (
               <div className="sidebarCard">
                 <button

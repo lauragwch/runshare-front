@@ -328,17 +328,16 @@
 .participantItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: #f8f9fa;
   border-radius: 8px;
+  transition: background-color 0.2s;
+  gap: 12px;
 }
 
 .participantItem:hover {
-  background-color: #f7f7f7;
-  padding: 12px;
-  margin: 0 -12px;
+  background-color: #e9ecef;
 }
 
 .participantPicture {
@@ -346,24 +345,34 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.participantInfo {
+  flex: 1;
+  min-width: 0;
 }
 
 .participantName {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  color: #222222;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  display: block;
+}
+
+.participantName:hover {
+  color: var(--primary);
 }
 
 .pendingStatus {
-  font-size: 12px;
-  color: #717171;
+  display: inline-block;
   background-color: #ffc107;
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #856404;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
+  margin-top: 4px;
 }
 
 .noParticipants {
@@ -373,6 +382,68 @@
   padding: 32px 0;
   font-style: italic;
 }
+
+/* Bouton contact participant pour l'organisateur */
+.contactParticipantBtn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.contactParticipantBtn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ba085 100%);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.contactParticipantBtn i {
+  font-size: 0.9rem;
+}
+
+/* Groupe de boutons pour les participants */
+.participantActionsGroup {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.contactBtn {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.contactBtn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ba085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 16px rgba(40, 167, 69, 0.3);
+}
+
+.contactBtn:active {
+  transform: translateY(0);
+}
+
 
 /* Avis/Ratings */
 .ratingsList {
@@ -425,19 +496,19 @@
 }
 
 .ratingStars i.fa-solid.fa-star {
-  color: #ffc107; 
+  color: #ffc107;
 }
 
 .ratingStars i.fa-regular.fa-star {
-  color: #dddddd; 
+  color: #dddddd;
 }
 
 .ratingItem .ratingStars i.fa-solid.fa-star {
-  color: #ffc107 !important; 
+  color: #ffc107 !important;
 }
 
 .ratingItem .ratingStars i.fa-regular.fa-star {
-  color: #dddddd !important; 
+  color: #dddddd !important;
 }
 
 .ratingComment {
@@ -542,7 +613,8 @@
 
 /* EFFET HOVER pour preview de gauche à droite */
 .ratingStarsInput:hover .starLabel i {
-  color: #dddddd; /* Reset toutes les étoiles au survol */
+  color: #dddddd;
+  /* Reset toutes les étoiles au survol */
 }
 
 /* Survol étoile 1 = 1 étoile jaune */
@@ -552,25 +624,25 @@
 
 /* Survol étoile 2 = 2 étoiles jaunes */
 .ratingStarsInput .starLabel:nth-child(2):hover i,
-.ratingStarsInput .starLabel:nth-child(2):hover ~ .starLabel:nth-child(1) i {
+.ratingStarsInput .starLabel:nth-child(2):hover~.starLabel:nth-child(1) i {
   color: #ffc107;
 }
 
 /* Survol étoile 3 = 3 étoiles jaunes */
 .ratingStarsInput .starLabel:nth-child(3):hover i,
-.ratingStarsInput .starLabel:nth-child(3):hover ~ .starLabel:nth-child(-n+2) i {
+.ratingStarsInput .starLabel:nth-child(3):hover~.starLabel:nth-child(-n+2) i {
   color: #ffc107;
 }
 
 /* Survol étoile 4 = 4 étoiles jaunes */
 .ratingStarsInput .starLabel:nth-child(4):hover i,
-.ratingStarsInput .starLabel:nth-child(4):hover ~ .starLabel:nth-child(-n+3) i {
+.ratingStarsInput .starLabel:nth-child(4):hover~.starLabel:nth-child(-n+3) i {
   color: #ffc107;
 }
 
 /* Survol étoile 5 = 5 étoiles jaunes */
 .ratingStarsInput .starLabel:nth-child(5):hover i,
-.ratingStarsInput .starLabel:nth-child(5):hover ~ .starLabel:nth-child(-n+4) i {
+.ratingStarsInput .starLabel:nth-child(5):hover~.starLabel:nth-child(-n+4) i {
   color: #ffc107;
 }
 
@@ -578,7 +650,7 @@
   color: #ffc107;
 }
 
-.ratingStarsInput .starLabel:hover ~ .starLabel i {
+.ratingStarsInput .starLabel:hover~.starLabel i {
   color: #dddddd;
 }
 
@@ -594,6 +666,7 @@
 .ratingStarsInput:has(.starLabel:nth-child(5) input:checked) .starLabel:nth-child(-n+5) i {
   color: #ffc107 !important;
 }
+
 /* ➕ FIN SECTION ÉTOILES */
 
 .formGroup textarea {
@@ -708,8 +781,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .errorMessage {
@@ -745,7 +823,7 @@
   .runDetailPage .container {
     padding: 0 24px;
   }
-  
+
   .runContent {
     gap: 48px;
   }
@@ -756,17 +834,17 @@
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  
+
   .runSidebar {
     order: -1;
   }
-  
+
   .sidebarCard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
   }
-  
+
   .participantsList,
   .ratingsList {
     max-height: none;
@@ -777,49 +855,68 @@
   .runDetailPage .container {
     padding: 0 16px;
   }
-  
+
   .runHeaderContent {
     padding: 0 16px;
   }
-  
+
   .runContent {
     padding: 24px 0;
     margin-top: 110px;
   }
-  
+
   .runTitle {
     font-size: 26px;
   }
-  
+
   .runLocationDistance {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .runMeta {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .sidebarCard {
     grid-template-columns: 1fr;
   }
-  
+
   .formActions {
     flex-direction: column;
   }
-  
+
   .cancelBtn,
   .submitBtn {
     width: 100%;
   }
 
-    .participantActionsGroup {
+  .participantItem {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .participantPicture {
+    width: 35px;
+    height: 35px;
+  }
+
+  .contactParticipantBtn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .contactParticipantBtn i {
+    font-size: 0.8rem;
+  }
+
+  .participantActionsGroup {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .contactBtn {
     width: 100%;
     min-width: auto;
@@ -830,26 +927,26 @@
   .runHeader {
     padding: 16px 0;
   }
-  
+
   .runHeaderContent {
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
     padding: 0 16px;
   }
-  
+
   .runContent {
     margin-top: 130px;
   }
-  
+
   .runTitle {
     font-size: 22px;
   }
-  
+
   .runOrganizer {
     padding: 16px 0;
   }
-  
+
   .organizerPicture {
     width: 48px;
     height: 48px;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import LoginForm from '../Components/Auth/LoginForm';
 import RegisterForm from '../Components/Auth/RegisterForm';
-import logo from '../assets/logo.png'; // Importez votre logo (ajustez le chemin si nécessaire)
+import logo from '../assets/logo.png'; 
 import '../Styles/Pages/AuthPage.css';
 
 const AuthPage = () => {
@@ -19,9 +19,9 @@ const AuthPage = () => {
   return (
     <div className="authPage">
       <div className="authPageContent">
-        {/* Section à gauche avec les informations et avantages */}
+        
         <div className="authInfoSection">
-          {/* Logo ajouté ici */}
+
           <div className="authLogoContainer">
             <img src={logo} alt="RunShare Logo" className="authLogo" />
           </div>

@@ -22,16 +22,32 @@ export const useMessages = () => {
     }
   };
 
-  const fetchMessageCount = async () => {
-    if (!currentUser) return;
+ const fetchMessageCount = async () => {
+  if (!currentUser) {
+    setMessageCount(0);
+    return;
+  }
+
+  try {
+    const response = await messageService.getMessageCount();
+    const totalMessages = response.data.count;
     
-    try {
-      const response = await messageService.getMessageCount();
-      setMessageCount(response.data.messageCount);
-    } catch (error) {
-      console.error('Erreur lors du comptage des messages:', error);
-    }
-  };
+    // Comparer avec la dernière visite
+    const lastVisit = localStorage.getItem('lastMessageVisit');
+    const lastVisitTime = lastVisit ? new Date(lastVisit) : new Date(0);
+    
+    // Compter seulement les messages plus récents que la dernière visite
+    const recentMessages = conversations.filter(conv => {
+      const messageTime = new Date(conv.last_message_time);
+      return messageTime > lastVisitTime;
+    }).length;
+    
+    setMessageCount(recentMessages);
+  } catch (error) {
+    console.error('Erreur lors du comptage des messages:', error);
+    setMessageCount(0);
+  }
+};
 
   useEffect(() => {
     if (currentUser) {
