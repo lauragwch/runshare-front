@@ -1,9 +1,18 @@
 import axios from 'axios';
 
+const getApiBaseUrl = () => {
+  const hostname = window.location.hostname;
+  
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:3000/api';
+  } else {
+    return `http://${hostname}:3000/api`;
+  }
+};
+
 // Création d'une instance axios avec une configuration par défaut
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  timeout: 10000,
+  baseURL: getApiBaseUrl(),  
   headers: {
     'Content-Type': 'application/json'
   }

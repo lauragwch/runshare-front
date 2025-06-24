@@ -3,7 +3,7 @@
   top: -15px;
   left: 80px;
   transform: translateX(-50%);
-  z-index: 1500;  /* Valeur plus élevée que la navbar (1000) */
+  z-index: 1500;  
   width: 240px;  
   height: auto;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
@@ -29,12 +29,13 @@
 
 .hero {
   position: relative;
-  height: 600px; /* Plus grand pour montrer plus l'image */
+  height: 600px; 
   background-image: url('../../assets/hero-image.jpg');
   background-size: cover;
   background-position: center;
   width: 100%;
   margin-bottom: 4rem;
+  padding-top: 120px; 
 }
 
 .overlay {
@@ -46,11 +47,6 @@
   background: rgba(0, 0, 0, 0.3); 
 }
 
-/* Supprimer le logoContainer car il sera dans la navbar */
-.logoContainer {
-  display: none;
-}
-
 .heroContent {
   position: absolute;
   top: 50%;
@@ -60,6 +56,7 @@
   max-width: 800px;
   padding: 0 20px;
   text-align: center;
+  margin-top: 40px; 
 }
 
 .heroContent h1 {
@@ -81,7 +78,6 @@
   justify-content: center;
 }
 
-/* Mise à jour des styles pour la section features */
 .features {
   padding: 5rem 0;
   margin-bottom: 0.1rem;
@@ -176,10 +172,22 @@
   font-size: 0.95rem;
 }
 
+/* RESPONSIVE TABLET */
 @media (max-width: 768px) {
+  .floatingLogo {
+    width: 160px; 
+    top: 20px;    
+    left: 60px;
+    transform: translateX(-50%);
+  }
+  
   .hero {
     height: 500px;
-    margin-top: 56px; 
+    padding-top: 140px; 
+  }
+  
+  .heroContent {
+    margin-top: 60px; 
   }
   
   .heroContent h1 {
@@ -188,10 +196,12 @@
   
   .heroCta {
     flex-direction: column;
+    gap: 0.8rem;
   }
   
   .featuresGrid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .featureCard {
@@ -199,34 +209,90 @@
     margin-bottom: 1.5rem;
   }
   
-  .navbar {
-    position: fixed;
+  .sectionTitle h2 {
+    font-size: 2rem;
   }
 }
 
+/* ✅ RESPONSIVE MOBILE */
 @media (max-width: 480px) {
+  .floatingLogo {
+    width: 120px; 
+    top: 25px;
+    left: 70px;
+    transform: translateX(-50%);
+  }
+  
   .hero {
     height: 450px;
+    padding-top: 160px; 
+  }
+  
+  .heroContent {
+    margin-top: 80px; 
+    padding: 0 15px;
   }
   
   .heroContent h1 {
     font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .heroContent p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroCta {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  
+  .heroCta .btn {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  .features {
+    padding: 3rem 0;
+  }
+  
+  .sectionTitle h2 {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+  
+  .featureCard {
+    padding: 1.2rem;
+  }
+  
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .iconWrapper i {
+    font-size: 1.5rem;
   }
 }
 
-/* Ajustement responsive pour le logo */
-@media (max-width: 768px) {
+/* OPTION ALTERNATIVE : Masquer logo sur très petit écran */
+@media (max-width: 380px) {
   .floatingLogo {
-    width: 180px; /* Version légèrement plus petite pour tablette */
-    top: 15px;
-    left: 15px;
+    display: none; 
   }
-}
-
-@media (max-width: 480px) {
-  .floatingLogo {
-    width: 140px; /* Version encore plus petite pour mobile */
-    top: 10px;
-    left: 10px;
+  
+  .hero {
+    padding-top: 100px;
+  }
+  
+  .heroContent {
+    margin-top: 40px; 
   }
 }
