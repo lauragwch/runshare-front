@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { userService } from '../../Services/api';
+import StarRating from '../UI/StarRating';
 import '../../Styles/User/UserRatingForm.css';
 
 const UserRatingForm = ({ targetUser, onSuccess, onCancel, sharedRuns = [] }) => {
@@ -79,19 +80,12 @@ const UserRatingForm = ({ targetUser, onSuccess, onCancel, sharedRuns = [] }) =>
           <div className="formGroup">
             <label htmlFor="rating">Note</label>
             <div className="ratingStarsInput">
-              {[1, 2, 3, 4, 5].map(star => (
-                <label key={star} className="starLabel">
-                  <input
-                    type="radio"
-                    name="rating"
-                    value={star}
-                    checked={ratingData.rating === star}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
-                  <i className="fa-solid fa-star"></i>
-                </label>
-              ))}
+              <StarRating 
+                value={ratingData.rating}
+                onChange={(rating) => setRatingData(prev => ({ ...prev, rating }))}
+                size="large"
+                showHoverEffect={true}
+              />
             </div>
             <div className="ratingText">
               {ratingData.rating === 1 && "Très décevant"}

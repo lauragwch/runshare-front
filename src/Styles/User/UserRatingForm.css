@@ -133,42 +133,8 @@
 
 .ratingStarsInput {
   display: flex;
-  gap: 8px;
+  justify-content: center;
   margin-bottom: 8px;
-}
-
-.starLabel {
-  cursor: pointer;
-  position: relative;
-}
-
-.starLabel input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.starLabel i {
-  font-size: 24px;
-  color: #ddd;
-  transition: all 0.2s ease;
-}
-
-.starLabel:hover i,
-.starLabel input:checked ~ i,
-.starLabel input:checked ~ * i {
-  color: #ffc107;
-}
-
-/* Effet hover pour les étoiles */
-.ratingStarsInput:hover .starLabel i {
-  color: #ddd;
-}
-
-.ratingStarsInput .starLabel:hover i,
-.ratingStarsInput .starLabel:hover ~ .starLabel i {
-  color: #ffc107;
 }
 
 .ratingText {
@@ -177,6 +143,9 @@
   color: #666;
   text-align: center;
   margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
 }
 
 .formGroup textarea {

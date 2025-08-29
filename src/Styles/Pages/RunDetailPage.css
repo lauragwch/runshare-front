@@ -55,7 +55,7 @@
 
 .runDate,
 .runLevel,
-.privateLabel {
+.runVisibility {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -87,9 +87,14 @@
   color: #de350b;
 }
 
-.privateLabel {
+.runVisibility {
   background-color: #e3f2fd;
   color: #0d47a1;
+}
+
+.runVisibility[data-visibility="public"] {
+  background-color: #e8f5e8;
+  color: #2e7d32;
 }
 
 /* Layout principal */
@@ -537,6 +542,49 @@
   border-color: #717171;
 }
 
+/* Affichage de l'évaluation actuelle */
+.currentRatingDisplay {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.currentRatingHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.currentRatingHeader span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.currentRatingComment {
+  font-size: 13px;
+  color: #6c757d;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Texte descriptif de la note */
+.ratingText {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
 /* Formulaire d'évaluation */
 .ratingForm {
   background-color: white;
@@ -568,6 +616,7 @@
 /* SECTION ÉTOILES */
 .ratingStarsInput {
   display: flex;
+  flex-direction: row-reverse; /* Inverse l'ordre visuel pour que 1 soit à gauche */
   gap: 4px;
   margin-bottom: 8px;
 }
@@ -590,68 +639,70 @@
   transition: color 0.2s ease;
 }
 
-/* CSS pour afficher les étoiles sélectionnées de gauche à droite */
-.ratingStarsInput:has(.starLabel:nth-child(1) input:checked) .starLabel:nth-child(1) i {
+/* CSS pour afficher les étoiles sélectionnées */
+.ratingStarsInput:has(.starLabel[data-rating="1"] input:checked) .starLabel[data-rating="1"] i {
   color: #ffc107;
 }
 
-.ratingStarsInput:has(.starLabel:nth-child(2) input:checked) .starLabel:nth-child(-n+2) i {
+.ratingStarsInput:has(.starLabel[data-rating="2"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="2"] input:checked) .starLabel[data-rating="2"] i {
   color: #ffc107;
 }
 
-.ratingStarsInput:has(.starLabel:nth-child(3) input:checked) .starLabel:nth-child(-n+3) i {
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="3"] i {
   color: #ffc107;
 }
 
-.ratingStarsInput:has(.starLabel:nth-child(4) input:checked) .starLabel:nth-child(-n+4) i {
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="3"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="4"] i {
   color: #ffc107;
 }
 
-.ratingStarsInput:has(.starLabel:nth-child(5) input:checked) .starLabel:nth-child(-n+5) i {
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="3"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="4"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="5"] i {
   color: #ffc107;
 }
 
-/* EFFET HOVER pour preview de gauche à droite */
+/* EFFET HOVER logique de gauche à droite */
 .ratingStarsInput:hover .starLabel i {
   color: #dddddd;
-  /* Reset toutes les étoiles au survol */
 }
 
-/* Survol étoile 1 = 1 étoile jaune */
-.ratingStarsInput .starLabel:nth-child(1):hover i {
+.ratingStarsInput .starLabel[data-rating="1"]:hover i {
   color: #ffc107;
 }
 
-/* Survol étoile 2 = 2 étoiles jaunes */
-.ratingStarsInput .starLabel:nth-child(2):hover i,
-.ratingStarsInput .starLabel:nth-child(2):hover~.starLabel:nth-child(1) i {
+.ratingStarsInput .starLabel[data-rating="2"]:hover i,
+.ratingStarsInput .starLabel[data-rating="2"]:hover ~ .starLabel[data-rating="1"] i {
   color: #ffc107;
 }
 
-/* Survol étoile 3 = 3 étoiles jaunes */
-.ratingStarsInput .starLabel:nth-child(3):hover i,
-.ratingStarsInput .starLabel:nth-child(3):hover~.starLabel:nth-child(-n+2) i {
+.ratingStarsInput .starLabel[data-rating="3"]:hover i,
+.ratingStarsInput .starLabel[data-rating="3"]:hover ~ .starLabel[data-rating="2"] i,
+.ratingStarsInput .starLabel[data-rating="3"]:hover ~ .starLabel[data-rating="1"] i {
   color: #ffc107;
 }
 
-/* Survol étoile 4 = 4 étoiles jaunes */
-.ratingStarsInput .starLabel:nth-child(4):hover i,
-.ratingStarsInput .starLabel:nth-child(4):hover~.starLabel:nth-child(-n+3) i {
+.ratingStarsInput .starLabel[data-rating="4"]:hover i,
+.ratingStarsInput .starLabel[data-rating="4"]:hover ~ .starLabel[data-rating="3"] i,
+.ratingStarsInput .starLabel[data-rating="4"]:hover ~ .starLabel[data-rating="2"] i,
+.ratingStarsInput .starLabel[data-rating="4"]:hover ~ .starLabel[data-rating="1"] i {
   color: #ffc107;
 }
 
-/* Survol étoile 5 = 5 étoiles jaunes */
-.ratingStarsInput .starLabel:nth-child(5):hover i,
-.ratingStarsInput .starLabel:nth-child(5):hover~.starLabel:nth-child(-n+4) i {
+.ratingStarsInput .starLabel[data-rating="5"]:hover i,
+.ratingStarsInput .starLabel[data-rating="5"]:hover ~ .starLabel[data-rating="4"] i,
+.ratingStarsInput .starLabel[data-rating="5"]:hover ~ .starLabel[data-rating="3"] i,
+.ratingStarsInput .starLabel[data-rating="5"]:hover ~ .starLabel[data-rating="2"] i,
+.ratingStarsInput .starLabel[data-rating="5"]:hover ~ .starLabel[data-rating="1"] i {
   color: #ffc107;
-}
-
-.ratingStarsInput .starLabel:hover i {
-  color: #ffc107;
-}
-
-.ratingStarsInput .starLabel:hover~.starLabel i {
-  color: #dddddd;
 }
 
 /* Priorité pour maintenir les étoiles sélectionnées même au hover */
@@ -659,11 +710,21 @@
   color: #dddddd;
 }
 
-.ratingStarsInput:has(.starLabel:nth-child(1) input:checked) .starLabel:nth-child(1) i,
-.ratingStarsInput:has(.starLabel:nth-child(2) input:checked) .starLabel:nth-child(-n+2) i,
-.ratingStarsInput:has(.starLabel:nth-child(3) input:checked) .starLabel:nth-child(-n+3) i,
-.ratingStarsInput:has(.starLabel:nth-child(4) input:checked) .starLabel:nth-child(-n+4) i,
-.ratingStarsInput:has(.starLabel:nth-child(5) input:checked) .starLabel:nth-child(-n+5) i {
+.ratingStarsInput:has(.starLabel[data-rating="1"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="2"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="2"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="3"] input:checked) .starLabel[data-rating="3"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="3"] i,
+.ratingStarsInput:has(.starLabel[data-rating="4"] input:checked) .starLabel[data-rating="4"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="1"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="2"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="3"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="4"] i,
+.ratingStarsInput:has(.starLabel[data-rating="5"] input:checked) .starLabel[data-rating="5"] i {
   color: #ffc107 !important;
 }
 

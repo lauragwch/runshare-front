@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Contextes/AuthContext';
 import { runService } from '../Services/api';
+import StarRating from '../Components/UI/StarRating';
 import '../Styles/Pages/RunDetailPage.css';
 
 const RunDetailPage = () => {
@@ -15,6 +16,8 @@ const RunDetailPage = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [ratingData, setRatingData] = useState({ rating: 5, comment: '' });
   const [showRatingForm, setShowRatingForm] = useState(false);
+  const [userHasRated, setUserHasRated] = useState(false);
+  const [userRating, setUserRating] = useState(null);
 
   // États pour déterminer les relations avec la course
   const [isParticipant, setIsParticipant] = useState(false);
@@ -60,6 +63,24 @@ const RunDetailPage = () => {
             p => p.id_user === currentUser.id_user
           );
           setIsParticipant(!!participant);
+        }
+
+        // Vérifier si l'utilisateur a déjà évalué cette course
+        if (currentUser && response.data.ratings) {
+          const existingRating = response.data.ratings.find(
+            rating => rating.id_user === currentUser.id_user
+          );
+          if (existingRating) {
+            setUserHasRated(true);
+            setUserRating(existingRating);
+            setRatingData({
+              rating: existingRating.rating,
+              comment: existingRating.comment || ''
+            });
+          } else {
+            setUserHasRated(false);
+            setUserRating(null);
+          }
         }
 
       } catch (err) {
@@ -151,10 +172,21 @@ const RunDetailPage = () => {
       const response = await runService.getById(id);
       setRun(response.data);
 
-      // Réinitialiser le formulaire
-      setRatingData({ rating: 5, comment: '' });
+      // Mettre à jour l'état de l'évaluation de l'utilisateur
+      const updatedUserRating = response.data.ratings.find(
+        rating => rating.id_user === currentUser.id_user
+      );
+      if (updatedUserRating) {
+        setUserHasRated(true);
+        setUserRating(updatedUserRating);
+        setRatingData({
+          rating: updatedUserRating.rating,
+          comment: updatedUserRating.comment || ''
+        });
+      }
 
-      alert('Évaluation ajoutée avec succès !');
+      const message = userHasRated ? 'Évaluation modifiée avec succès !' : 'Évaluation ajoutée avec succès !';
+      alert(message);
 
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Erreur lors de l\'évaluation de la course';
@@ -224,7 +256,6 @@ const RunDetailPage = () => {
           <button className="backButton" onClick={() => navigate('/runs')}>
             <i className="fa-solid fa-arrow-left"></i> Retour
           </button>
-
           <div className="runMeta">
             <div className="runDate">
               <i className="fa-solid fa-calendar"></i>
@@ -235,11 +266,10 @@ const RunDetailPage = () => {
               {run.level}
             </div>
 
-            {run.is_private && (
-              <div className="privateLabel">
-                <i className="fa-solid fa-lock"></i> Privée
-              </div>
-            )}
+            <div className="runVisibility" data-visibility={run.is_private ? 'private' : 'public'}>
+              <i className={run.is_private ? "fa-solid fa-lock" : "fa-solid fa-globe"}></i>
+              {run.is_private ? 'Privée' : 'Publique'}
+            </div>
           </div>
         </div>
       </div>
@@ -389,7 +419,7 @@ const RunDetailPage = () => {
                 <h2>Avis ({run.ratings.length})</h2>
                 <div className="ratingsList">
                   {run.ratings.map(rating => (
-                    <div key={rating.id_rating} className="ratingItem">
+                    <div key={rating.id_rating || `${rating.id_user}-${rating.created_at}`} className="ratingItem">
                       <div className="ratingHeader">
                         <div className="ratingUser">
                           <img
@@ -419,7 +449,7 @@ const RunDetailPage = () => {
               </div>
             )}
 
-            {/* Bouton évaluer - condition avec vérification date passée */}
+            {/* Bouton évaluer/modifier évaluation - condition avec vérification date passée */}
             {isParticipant && !isOrganizer && !showRatingForm && isCoursePast(run.date) && (
               <div className="sidebarCard">
                 <button
@@ -427,8 +457,25 @@ const RunDetailPage = () => {
                   onClick={() => setShowRatingForm(true)}
                 >
                   <i className="fa-solid fa-star"></i>
-                  Évaluer cette course
+                  {userHasRated ? 'Modifier mon évaluation' : 'Évaluer cette course'}
                 </button>
+                {userHasRated && userRating && (
+                  <div className="currentRatingDisplay">
+                    <div className="currentRatingHeader">
+                      <span>Votre évaluation actuelle :</span>
+                      <StarRating 
+                        value={userRating.rating} 
+                        readonly={true}
+                        size="small"
+                      />
+                    </div>
+                    {userRating.comment && (
+                      <div className="currentRatingComment">
+                        "{userRating.comment}"
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
@@ -445,13 +492,13 @@ const RunDetailPage = () => {
             {showRatingForm && (
               <div className="sidebarCard">
                 <div className="ratingForm">
-                  <h3>Évaluer cette course</h3>
+                  <h3>{userHasRated ? 'Modifier votre évaluation' : 'Évaluer cette course'}</h3>
                   <form onSubmit={handleRateRun}>
                     <div className="formGroup">
                       <label htmlFor="rating">Note</label>
                       <div className="ratingStarsInput">
-                        {[1, 2, 3, 4, 5].map(star => (
-                          <label key={star} className="starLabel">
+                        {[5, 4, 3, 2, 1].map(star => (
+                          <label key={star} className="starLabel" data-rating={star}>
                             <input
                               type="radio"
                               name="rating"
@@ -462,6 +509,13 @@ const RunDetailPage = () => {
                             <i className="fa-solid fa-star"></i>
                           </label>
                         ))}
+                      </div>
+                      <div className="ratingText">
+                        {ratingData.rating === 1 && "Très décevant"}
+                        {ratingData.rating === 2 && "Décevant"}
+                        {ratingData.rating === 3 && "Correct"}
+                        {ratingData.rating === 4 && "Bien"}
+                        {ratingData.rating === 5 && "Excellent"}
                       </div>
                     </div>
 
@@ -482,7 +536,15 @@ const RunDetailPage = () => {
                         className="cancelBtn"
                         onClick={() => {
                           setShowRatingForm(false);
-                          setRatingData({ rating: 5, comment: '' });
+                          // Restaurer les valeurs précédentes si l'utilisateur a déjà noté
+                          if (userHasRated && userRating) {
+                            setRatingData({
+                              rating: userRating.rating,
+                              comment: userRating.comment || ''
+                            });
+                          } else {
+                            setRatingData({ rating: 5, comment: '' });
+                          }
                         }}
                       >
                         Annuler
@@ -492,7 +554,7 @@ const RunDetailPage = () => {
                         className="submitBtn"
                         disabled={actionLoading}
                       >
-                        {actionLoading ? 'Envoi...' : 'Envoyer'}
+                        {actionLoading ? 'Envoi...' : (userHasRated ? 'Modifier' : 'Envoyer')}
                       </button>
                     </div>
                   </form>
